@@ -18,7 +18,13 @@ const userSchema = new Schema({
     trim: true,
     minLength: 3,
     required: true
-  }
+  },
+  born: {
+    type: Date
+   },
+   bio: {
+    type: String
+   },
 }, {
   timestamps: true,
   toJSON: {
