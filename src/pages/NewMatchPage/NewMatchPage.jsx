@@ -1,5 +1,5 @@
 export default function NewMatchPage() {
     return (
-      <h1>NewMatchPage</h1>
+      <h1>Discover New Chemistry</h1>
     );
   }

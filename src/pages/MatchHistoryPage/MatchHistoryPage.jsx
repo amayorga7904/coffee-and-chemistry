@@ -8,7 +8,7 @@ export default function MatchHistoryPage() {
   
   return (
     <>
-      <h1>MatchHistoryPage</h1>
+      <h1>Your Matches</h1>
       <button onClick={handleCheckToken}>Check When My Login Expires</button>
     </>
   );
