@@ -9,14 +9,21 @@ module.exports = {
 
 async function showAccounts(req, res) {
     try {
-        const match = await Match.findOne()
-        const userId = req.user._id
-        let users = await User.find({ _id: {$ne: userId}})
-        res.json({users, match})
+        // Make sure the user is authenticated before accessing req.user._id
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const match = await Match.findOne();
+        const userId = req.user._id;
+        let users = await User.find({ _id: { $ne: userId } });
+        res.json({ users, match });
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+
 
 async function create(req, res) {
     req.body.user = req.user._id
@@ -27,4 +34,5 @@ async function create(req, res) {
     await Account.create(req.body)
     await user.save()
     res.json(user)
+    console.log('account created')
 }
