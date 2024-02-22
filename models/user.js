@@ -19,8 +19,10 @@ const userSchema = new Schema({
     minLength: 3,
     required: true
   },
-  born: {
-    type: Date
+  age: {
+    type: Number,
+    required: true,
+    min: 18
    },
    bio: {
     type: String

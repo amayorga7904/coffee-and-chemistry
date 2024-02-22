@@ -6,7 +6,8 @@ module.exports = {
   create,
   login,
   checkToken,
-  showAccounts
+  showAccounts,
+  createMatch
 };
 
 
@@ -42,17 +43,20 @@ function checkToken(req, res) {
 
 async function showAccounts(req, res) {
   try {
-      // Make sure the user is authenticated before accessing req.user._id
-      if (!req.user) {
-          return res.status(401).json({ message: "Unauthorized" });
-      }
-
       const userId = req.user._id;
       let users = await User.find({ _id: { $ne: userId } });
       res.json( users );
   } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+async function createMatch(req, res) {
+  try {
+
+  } catch (error) {
+
   }
 }
 /*--- Helper Functions --*/

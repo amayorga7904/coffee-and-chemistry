@@ -41,7 +41,7 @@ export default function NewMatchPage() {
             <strong>Bio:</strong> {user.bio}
           </div>
           <div>
-            <strong>Born:</strong> {user.born}
+            <strong>Age:</strong> {user.age}
           </div>
         <br />
         </li>

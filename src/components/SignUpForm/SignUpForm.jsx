@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 const signUpData = {
   name: '',
   email: '',
-  born: '',
+  age: '',
   bio: '',
   password: '',
   confirm: '',
@@ -23,17 +23,40 @@ const SignUpForm = ({ setUser }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    const { name, email, password, bio, age, confirm } = formData;
+  
+    // Check if age is less than 18
+    if (parseInt(age) < 18) {
+      setFormData({ ...formData, error: 'Sorry! You must be 18 years or older to sign up' });
+      return;
+    }
+  
+
+    
+    // Check if email is valid
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(email)) {
+    //   setFormData({ ...formData, error: 'Please enter a valid email' });
+    //   return;
+    // }
+  
+    // Check if password and confirm password match
+    if (password !== confirm) {
+      setFormData({ ...formData, error: 'Passwords do not match' });
+      return;
+    }
+  
     try {
-      const { name, email, password, bio, born } = formData
-      const user = await signUp(formData)
-      setUser(user)
+      const user = await signUp(formData);
+      setUser(user);
     } catch {
       // An error occurred
       // Probably due to a duplicate email
-      setFormData({ ...formData, error: 'Sign Up Failed - Try Again' })
+      setFormData({ ...formData, error: 'Sign Up Failed - Try Again' });
     }
-  }
+  };
+  
   const disable = formData.password !== formData.confirm
 
   return (
@@ -59,11 +82,11 @@ const SignUpForm = ({ setUser }) => {
             onChange={handleChange} 
             required 
           />
-          <label>Date of Birth</label>
+          <label>Age</label>
           <input 
-            type='text' 
-            name='born' 
-            value={formData.born} 
+            type='number' 
+            name='age' 
+            value={formData.age} 
             onChange={handleChange} 
             required 
           />
