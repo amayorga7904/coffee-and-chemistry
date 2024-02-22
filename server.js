@@ -28,6 +28,9 @@ app.use('/api/users', require('./routes/api/users'));
 
 const accountsRouter = require('./routes/accounts')
 app.use('/api/accounts', accountsRouter)
+
+const matchesRouter = require('./routes/matches')
+app.use('/api/matches', matchesRouter)
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX/API requests
 app.get('/*', function(req, res) {

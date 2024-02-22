@@ -6,8 +6,7 @@ module.exports = {
   create,
   login,
   checkToken,
-  showAccounts,
-  createMatch
+  showAccounts
 };
 
 
@@ -52,13 +51,6 @@ async function showAccounts(req, res) {
   }
 }
 
-async function createMatch(req, res) {
-  try {
-
-  } catch (error) {
-
-  }
-}
 /*--- Helper Functions --*/
 
 function createJWT(user) {

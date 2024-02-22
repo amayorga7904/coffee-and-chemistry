@@ -27,6 +27,26 @@ export default function NewMatchPage() {
     fetchOtherUsers();
   }, []);
 
+  const setMatch = async (receiverId) => {
+    const token = getToken();
+    const matchData = {
+      receiver: receiverId,
+      content: 'Initial message or content for the match',
+    };
+
+    try {
+      await axios.post('/api/matches/new', matchData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Match created successfully');
+      // Optionally, you can perform any actions after creating the match
+    } catch (error) {
+      console.error('Error creating match:', error);
+    }
+  };
+
   return (
     <>
       <h1>Discover New Chemistry</h1>
@@ -43,6 +63,7 @@ export default function NewMatchPage() {
           <div>
             <strong>Age:</strong> {user.age}
           </div>
+          <button onClick={() => setMatch(user._id)}>Create Match</button>
         <br />
         </li>
         ))}

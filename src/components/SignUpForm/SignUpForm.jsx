@@ -1,3 +1,4 @@
+import { set } from 'mongoose'
 import { signUp } from '../../utilities/users-service'
 import React, { useState } from 'react'
 
@@ -33,6 +34,9 @@ const SignUpForm = ({ setUser }) => {
     }
   
 
+    // const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1)
+
+    // setFormData({ ...formData, name: capitalizedName })
     
     // Check if email is valid
     // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -66,7 +70,7 @@ const SignUpForm = ({ setUser }) => {
           autoComplete='off' 
           onSubmit={handleSubmit}
         >
-          <label>Name</label>
+          <label>First Name</label>
           <input 
             type='text' 
             name='name' 
