@@ -7,20 +7,12 @@ import { useParams } from 'react-router-dom';
 export default function MatchHistoryPage() {
     const location = useLocation();
     console.log('Location state:', location.state);
-    const userData = location.state?.userData;
+    const { newMatchData } = location.state || {};
+    const userData = newMatchData?.userData;
     const [matches, setMatches] = useState([]);
     const [loading, setLoading] = useState(true);
     const { userId } = useParams()
 
- 
-    useEffect(() => {
-        const newMatchData = location.state?.newMatchData;
-        if (newMatchData) {
-            // Include the new match in the matches state
-            setMatches(prevMatches => [newMatchData, ...prevMatches]);
-        }
-    }, [location.state]);
-    
     useEffect(() => {
         const fetchMatches = async () => {
             try {
@@ -33,7 +25,7 @@ export default function MatchHistoryPage() {
                     },
                 });
                 console.log('response:', response.data)
-                const matchesData = response.data.matches || [];
+                const matchesData = response.data
                 setMatches(matchesData);
                 console.log('matches data:', matchesData)
                 setLoading(false);
@@ -46,9 +38,6 @@ export default function MatchHistoryPage() {
         fetchMatches();
     }, []);
     
-    
-    
-  
     return (
       <div>
         <h1>Your Matches</h1>
@@ -67,7 +56,7 @@ export default function MatchHistoryPage() {
                 {/* Add other match details as needed */}
               {userData && (
                 <div>
-                  <h2>User Info</h2>
+                  <h2>Matched User Info</h2>
                   <p>Name: {userData.name}</p>
                   <p>Bio: {userData.bio}</p>
                   <p>Age: {userData.age}</p>

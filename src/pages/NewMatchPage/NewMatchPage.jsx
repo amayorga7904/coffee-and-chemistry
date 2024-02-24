@@ -34,7 +34,7 @@ export default function NewMatchPage() {
     fetchOtherUsers();
   }, []);
 
-  const setMatch = async (receiverId, content) => {
+const setMatch = async (receiverId, content) => {
     const token = getToken();
     const matchData = {
       receiver: receiverId,
@@ -54,13 +54,14 @@ export default function NewMatchPage() {
       console.log('User data:', user);
       console.log('receiver:', receiverId);
       const currentUser = getUser()
-      // Redirect to match history page
-      navigate(`/matches/${currentUser._id}`, { state: { userData: user, newMatchData: response.data } });
+      // Redirect to match history page with userData of the matched user
+      // navigate(`/matches/${currentUser._id}`, { state: { userData: user, newMatchData: response.data } });
       setContent('')
     } catch (error) {
       console.error('Error creating match:', error);
     }
   };
+
 
 const handleContentChange = (e) => {
   setContent(e.target.value)
