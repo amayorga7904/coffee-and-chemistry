@@ -25,7 +25,7 @@ export default function MatchHistoryPage() {
                     },
                 });
                 console.log('response:', response.data)
-                const matchesData = response.data
+                const matchesData = response.data 
                 setMatches(matchesData);
                 console.log('matches data:', matchesData)
                 setLoading(false);

@@ -6,12 +6,13 @@ import { useUserData } from './UserDataContext';
 import { useParams } from 'react-router-dom';
 
 export default function NewMatchPage() {
-  const { setUserData } = useUserData()
-  const { userId } = useParams()
+  const { setUserData } = useUserData();
+  const { userId } = useParams();
   const [otherUsers, setOtherUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState('');
+  const [matchedUsers, setMatchedUsers] = useState([]);
 
   useEffect(() => {
     const token = getToken();
@@ -22,8 +23,9 @@ export default function NewMatchPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setOtherUsers(response.data);
-
+        const currentUser = getUser();
+        const filteredUsers = response.data.filter(user => user._id !== currentUser._id);
+        setOtherUsers(filteredUsers);
       } catch (error) {
         console.error('Error fetching other users:', error);
       } finally {
@@ -34,7 +36,27 @@ export default function NewMatchPage() {
     fetchOtherUsers();
   }, []);
 
-const setMatch = async (receiverId, content) => {
+  useEffect(() => {
+    // Fetch matched users for the logged-in user
+    const fetchMatchedUsers = async () => {
+      try {
+        const token = getToken();
+        const response = await axios.get(`/api/matches/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const matchedUsersIds = response.data.map(match => match.receiver);
+        setMatchedUsers(matchedUsersIds);
+      } catch (error) {
+        console.error('Error fetching matched users:', error);
+      }
+    };
+
+    fetchMatchedUsers();
+  }, [userId]);
+
+  const setMatch = async (receiverId, content) => {
     const token = getToken();
     const matchData = {
       receiver: receiverId,
@@ -47,32 +69,30 @@ const setMatch = async (receiverId, content) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('response data', response.data)
+      console.log('response data', response.data);
       console.log('Match created successfully');
       console.log('content', matchData.content);
-      const user = otherUsers.find(user => user._id === receiverId);
-      console.log('User data:', user);
-      console.log('receiver:', receiverId);
-      const currentUser = getUser()
-      // Redirect to match history page with userData of the matched user
-      // navigate(`/matches/${currentUser._id}`, { state: { userData: user, newMatchData: response.data } });
-      setContent('')
+      // Add the matched user to the list of matched users
+      setMatchedUsers(prevMatchedUsers => [...prevMatchedUsers, receiverId]);
+      setContent('');
     } catch (error) {
       console.error('Error creating match:', error);
     }
   };
 
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
 
-const handleContentChange = (e) => {
-  setContent(e.target.value)
-}
+  // Filter out the matched users from the list of other users
+  const filteredUsers = otherUsers.filter(user => !matchedUsers.includes(user._id));
 
   return (
     <>
       <h1>Discover New Chemistry</h1>
       {loading && <div>Loading...</div>}
       <ul>
-        {otherUsers.map((user) => (
+        {filteredUsers.map((user) => (
           <li key={user._id}>
             <div>
               <strong>Name:</strong> {user.name}
