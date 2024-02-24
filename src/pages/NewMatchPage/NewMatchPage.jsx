@@ -47,6 +47,8 @@ export default function NewMatchPage() {
           },
         });
         const matchedUsersIds = response.data.map(match => match.receiver);
+        console.log('response data in new match page:', response.data)
+        console.log('matched users ids:', matchedUsersIds)
         setMatchedUsers(matchedUsersIds);
       } catch (error) {
         console.error('Error fetching matched users:', error);

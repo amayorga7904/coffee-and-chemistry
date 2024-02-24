@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../../models/user');
+const Match = require('../../models/match')
 
 module.exports = {
   create,
@@ -42,14 +43,69 @@ function checkToken(req, res) {
 
 async function showAccounts(req, res) {
   try {
-      const userId = req.user._id;
-      let users = await User.find({ _id: { $ne: userId } });
-      res.json( users );
+    const currentUser = req.user._id;
+
+    // Find all matches where the current user's ID appears as the sender or receiver
+    const matches = await Match.find({
+      $or: [{ sender: currentUser }, { receiver: currentUser }]
+    });
+
+    console.log('backend-matches', matches);
+
+    // Get all user IDs involved in matches
+    const matchedUserIds = matches.reduce((acc, match) => {
+      console.log('match', match);
+      if (match.sender && match.sender.toString() === currentUser.toString()) {
+        acc.push(match.receiver.toString()); // Convert ObjectId to string
+      } else if (match.receiver && match.receiver.toString() === currentUser.toString()) {
+        acc.push(match.sender.toString()); // Convert ObjectId to string
+      } else {
+        console.log('Match sender and receiver are both undefined:', match);
+      }
+      return acc;
+    }, []);
+
+    // Fetch all users except the current user
+    let users = await User.find({ _id: { $ne: currentUser } });
+
+    // Filter out matched users from the list of all users
+    users = users.filter(user => !matchedUserIds.includes(user._id.toString())); // Convert ObjectId to string for comparison
+
+    res.json(users);
   } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
+
+
+// async function showAccounts(req, res) {
+//   try {
+//     const currentUser = req.user._id;
+    
+//     // Find all matches where the current user's ID appears as the sender or receiver
+//     const matchedUsers = await Match.find({
+//       $or: [{ sender: currentUser }, { receiver: currentUser }]
+//     })
+//     console.log('backend matched users:', matchedUsers);
+    
+//     // Fetch all users except the current user
+//     let allUsers = await User.find({ _id: { $ne: currentUser } });
+//     console.log('All users:', allUsers);
+    
+//     // Filter out the matched users from the list of all users
+//     let users = allUsers.filter(user => !matchedUsers.includes(user._id.toString()));
+//     console.log('Filtered users:', users);
+    
+//     res.json(users);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// }
+
+
+
 
 /*--- Helper Functions --*/
 
