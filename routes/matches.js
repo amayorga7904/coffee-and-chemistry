@@ -4,6 +4,8 @@ const router = express.Router();
 const matchCtrl = require('../controllers/matches')
 const ensureLoggedIn = require('../config/ensureLoggedIn')
 
-router.post('/new', ensureLoggedIn, matchCtrl.createMatch)
+router.post('/', ensureLoggedIn, matchCtrl.createMatch)
+
+router.get('/:id', ensureLoggedIn, matchCtrl.showMatch)
 
 module.exports = router

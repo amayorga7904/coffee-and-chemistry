@@ -1,7 +1,21 @@
 const Match = require('../models/match')
 
 module.exports = {
-    createMatch
+    createMatch,
+    showMatch
+}
+
+async function showMatch(req, res) {
+    try {
+        const userId = req.user._id
+        const matches = await Match.find({ sender: userId }).populate('messages')
+        console.log('backend-matches', matches)
+        res.json(matches)
+        console.log('backend-user', userId)
+        console.log('will this show?')
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 async function createMatch(req, res) {
