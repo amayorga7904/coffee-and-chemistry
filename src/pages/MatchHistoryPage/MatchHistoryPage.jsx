@@ -50,13 +50,12 @@ export default function MatchHistoryPage() {
                 <h2>Match {index + 1}</h2>
                 {match.messages.map((message, messageIndex) => (
             <div key={messageIndex}>
+              {message.sender._id !== getUser()._id && (
+                <div>
               <p><strong>{message.sender.name}</strong> </p>
               <p>Age: {message.sender.age}</p>
               <p>Bio: {message.sender.bio}</p>
               <p>Content: {message.content}</p>
-              {message.sender._id !== getUser()._id && (
-                <div>
-                  {/* Add your buttons here */}
                   <button>✔</button>
                   <button>✖</button>
                 </div>
