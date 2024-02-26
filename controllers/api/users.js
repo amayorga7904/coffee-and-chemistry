@@ -46,9 +46,7 @@ async function showAccounts(req, res) {
     const currentUser = req.user._id;
 
     // Find all matches where the current user's ID appears as the sender or receiver
-    const matches = await Match.find({
-      $or: [{ sender: currentUser }, { receiver: currentUser }]
-    }).populate('users'); // Populate the users field
+    const matches = await Match.find({ users: currentUser });
 
     console.log('backend-matches', matches);
 
@@ -64,7 +62,7 @@ async function showAccounts(req, res) {
     }, []);
 
     // Fetch all users except the current user
-    let users = await User.find({ _id: { $ne: currentUser } });
+    let users = await User.find({ _id: { $ne: currentUser,  $nin: matchedUserIds} });
 
     // Filter out matched users from the list of all users
     users = users.filter(user => !matchedUserIds.includes(user._id.toString())); // Convert ObjectId to string for comparison
@@ -75,7 +73,6 @@ async function showAccounts(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
-
 
 
 
