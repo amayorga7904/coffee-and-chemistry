@@ -1,12 +1,23 @@
 const Match = require('../models/match')
 
+async function acceptMatch(req, res) {
+        const { matchId } = req.params;
+        try {
+          // Update match status to "accepted"
+          const acceptedMatch = await Match.findByIdAndUpdate(matchId, { status: 'accepted' }, { new: true });
+          res.status(200).json({ message: 'Match Accepted successfully', match: acceptedMatch });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'An error occurred while accepting the match' });
+        }
+      }
 
 async function rejectMatch(req, res) {
     const { matchId } = req.params;
     try {
       // Update match status to "rejected"
-      const updatedMatch = await Match.findByIdAndUpdate(matchId, { status: 'rejected' }, { new: true });
-      res.status(200).json({ message: 'Match rejected successfully', match: updatedMatch });
+      const rejectedMatch = await Match.findByIdAndUpdate(matchId, { status: 'rejected' }, { new: true });
+      res.status(200).json({ message: 'Match rejected successfully', match: rejectedMatch });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred while rejecting the match' });
@@ -44,7 +55,8 @@ async function createMatch(req, res) {
             messages: [{
                 content: content,
                 sender: userId
-            }]
+            }],
+            status: 'pending'
         })
         await match.save()
         res.json(match)
@@ -56,5 +68,6 @@ async function createMatch(req, res) {
 module.exports = {
     createMatch,
     showMatch,
-    rejectMatch
+    rejectMatch,
+    acceptMatch
 }

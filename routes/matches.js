@@ -8,6 +8,8 @@ router.post('/', ensureLoggedIn, matchCtrl.createMatch)
 
 router.get('/:id', ensureLoggedIn, matchCtrl.showMatch)
 
-router.put('/:id/:matchId', ensureLoggedIn, matchCtrl.rejectMatch)
+router.put('/:id/reject/:matchId', ensureLoggedIn, matchCtrl.rejectMatch)
+
+router.put('/:id/accept/:matchId', ensureLoggedIn, matchCtrl.acceptMatch)
 
 module.exports = router
