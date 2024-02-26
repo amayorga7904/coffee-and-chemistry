@@ -1,8 +1,15 @@
 const Match = require('../models/match')
 
-module.exports = {
-    createMatch,
-    showMatch
+
+const unmatch = async (req, res) => {
+    const matchId = req.params.matchId
+    try {
+        const match = Match.findById(matchId)
+        await match.remove()
+        res.status(200).json({ message: 'Code deleted successfully' })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 async function showMatch(req, res) {
@@ -43,4 +50,10 @@ async function createMatch(req, res) {
     } catch (error) {
         console.log(error)
     }
-  }
+}
+
+module.exports = {
+    createMatch,
+    showMatch,
+    delete: unmatch
+}

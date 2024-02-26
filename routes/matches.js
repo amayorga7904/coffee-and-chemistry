@@ -8,4 +8,6 @@ router.post('/', ensureLoggedIn, matchCtrl.createMatch)
 
 router.get('/:id', ensureLoggedIn, matchCtrl.showMatch)
 
+router.delete('/:id/:matchId', ensureLoggedIn, matchCtrl.delete)
+
 module.exports = router

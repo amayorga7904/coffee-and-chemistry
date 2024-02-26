@@ -13,31 +13,50 @@ export default function MatchHistoryPage() {
     const [loading, setLoading] = useState(true);
     const { userId } = useParams()
 
-    useEffect(() => {
-        const fetchMatches = async () => {
-            try {
-                const currentUser = getUser()
-                console.log('current user:', currentUser)
-                const token = getToken();
-                const response = await axios.get(`/api/matches/${currentUser._id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                console.log('response:', response.data)
-                const matchesData = response.data 
-                setMatches(matchesData);
-                console.log('matches data:', matchesData)
-                console.log('matches:', matches)
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching matches:', error.response ? error.response.data : error.message);
-                setLoading(false);
-            }
-        };
+    const fetchMatches = async () => {
+        try {
+            const currentUser = getUser()
+            console.log('current user:', currentUser)
+            const token = getToken();
+            const response = await axios.get(`/api/matches/${currentUser._id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log('response:', response.data)
+            const matchesData = response.data 
+            setMatches(matchesData);
+            console.log('matches data:', matchesData)
+            console.log('matches:', matches)
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching matches:', error.response ? error.response.data : error.message);
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchMatches();
     }, []);
+    
+    const handleReject = async (matchId) => {
+      const currentUser = getUser();
+      const token = getToken();
+      console.log('currentUser:', currentUser);
+      console.log('matchId:', matchId);
+
+      try {
+        await axios.delete(`/api/matches/${currentUser._id}/${matchId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        // Assuming you want to update the matches state after deleting a match
+        fetchMatches();
+      } catch (error) {
+        console.error('Error rejecting match:', error);
+      }
+    }
     
     return (
       <div>
@@ -47,7 +66,6 @@ export default function MatchHistoryPage() {
           {matches.map((match, index) => (
             <li key={index}>
               <div>
-                <h2>Match {index + 1}</h2>
                 {match.messages.map((message, messageIndex) => (
             <div key={messageIndex}>
               {message.sender._id !== getUser()._id && (
@@ -57,7 +75,7 @@ export default function MatchHistoryPage() {
               <p>Bio: {message.sender.bio}</p>
               <p>Content: {message.content}</p>
                   <button>✔</button>
-                  <button>✖</button>
+                  <button onClick={() => handleReject(match._id)}>✖</button>
                 </div>
               )}
               </div>
