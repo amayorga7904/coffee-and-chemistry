@@ -24,7 +24,7 @@ export default function MatchHistoryPage() {
                 },
             });
             console.log('response:', response.data)
-            const matchesData = response.data 
+            const matchesData = response.data.filter(match => match.status !== 'rejected')
             setMatches(matchesData);
             console.log('matches data:', matchesData)
             console.log('matches:', matches)
@@ -42,21 +42,21 @@ export default function MatchHistoryPage() {
     const handleReject = async (matchId) => {
       const currentUser = getUser();
       const token = getToken();
-      console.log('currentUser:', currentUser);
-      console.log('matchId:', matchId);
-
+    
       try {
-        await axios.delete(`/api/matches/${currentUser._id}/${matchId}`, {
+        // Instead of deleting, update match status to "rejected"
+        await axios.put(`/api/matches/${currentUser._id}/${matchId}`, { status: 'rejected' }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        // Assuming you want to update the matches state after deleting a match
+        // Assuming you want to update the matches state after rejecting a match
         fetchMatches();
       } catch (error) {
         console.error('Error rejecting match:', error);
       }
     }
+    
     
     return (
       <div>

@@ -1,16 +1,17 @@
 const Match = require('../models/match')
 
 
-const unmatch = async (req, res) => {
-    const matchId = req.params.matchId
+async function rejectMatch(req, res) {
+    const { matchId } = req.params;
     try {
-        const match = Match.findById(matchId)
-        await match.remove()
-        res.status(200).json({ message: 'Code deleted successfully' })
+      // Update match status to "rejected"
+      const updatedMatch = await Match.findByIdAndUpdate(matchId, { status: 'rejected' }, { new: true });
+      res.status(200).json({ message: 'Match rejected successfully', match: updatedMatch });
     } catch (error) {
-        console.log(error)
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while rejecting the match' });
     }
-}
+  }
 
 async function showMatch(req, res) {
     try {
@@ -55,5 +56,5 @@ async function createMatch(req, res) {
 module.exports = {
     createMatch,
     showMatch,
-    delete: unmatch
+    rejectMatch
 }

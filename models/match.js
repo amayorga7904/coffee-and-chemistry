@@ -20,6 +20,10 @@ const matchSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
+    status: {
+        type: String,
+        require: true
+    },
     messages: [messageSchema]
 }, {
     timestamps: true
