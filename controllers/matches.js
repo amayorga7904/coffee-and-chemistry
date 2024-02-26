@@ -33,10 +33,7 @@ async function showMatch(req, res) {
             populate: { path: 'sender' }
         })
         .populate('users')
-        console.log('backend-matches', matches);
         res.json(matches);
-        console.log('backend-user', userId);
-        console.log('will this show?');
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'An error occurred while fetching matches' });
