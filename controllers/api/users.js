@@ -48,20 +48,18 @@ async function showAccounts(req, res) {
     // Find all matches where the current user's ID appears as the sender or receiver
     const matches = await Match.find({
       $or: [{ sender: currentUser }, { receiver: currentUser }]
-    });
+    }).populate('users'); // Populate the users field
 
     console.log('backend-matches', matches);
 
     // Get all user IDs involved in matches
     const matchedUserIds = matches.reduce((acc, match) => {
       console.log('match', match);
-      if (match.sender && match.sender.toString() === currentUser.toString()) {
-        acc.push(match.receiver.toString()); // Convert ObjectId to string
-      } else if (match.receiver && match.receiver.toString() === currentUser.toString()) {
-        acc.push(match.sender.toString()); // Convert ObjectId to string
-      } else {
-        console.log('Match sender and receiver are both undefined:', match);
-      }
+      match.users.forEach(user => {
+        if (user._id.toString() !== currentUser.toString()) {
+          acc.push(user._id.toString()); // Convert ObjectId to string
+        }
+      });
       return acc;
     }, []);
 
@@ -77,6 +75,8 @@ async function showAccounts(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
+
 
 
 // async function showAccounts(req, res) {

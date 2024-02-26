@@ -8,10 +8,12 @@ module.exports = {
 async function showMatch(req, res) {
     try {
         const userId = req.user._id;
-        const matches = await Match.find({ users: userId }).populate({
+        const matches = await Match.find({ users: { $elemMatch: { $eq: userId } } })
+        .populate({
             path: 'messages',
             populate: { path: 'sender' }
-        });
+        })
+        .populate('users')
         console.log('backend-matches', matches);
         res.json(matches);
         console.log('backend-user', userId);
@@ -21,6 +23,7 @@ async function showMatch(req, res) {
         res.status(500).json({ error: 'An error occurred while fetching matches' });
     }
 }
+
 
 
 async function createMatch(req, res) {
