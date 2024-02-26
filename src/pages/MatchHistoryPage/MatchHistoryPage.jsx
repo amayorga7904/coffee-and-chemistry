@@ -28,6 +28,7 @@ export default function MatchHistoryPage() {
                 const matchesData = response.data 
                 setMatches(matchesData);
                 console.log('matches data:', matchesData)
+                console.log('matches:', matches)
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching matches:', error.response ? error.response.data : error.message);
@@ -49,19 +50,19 @@ export default function MatchHistoryPage() {
                 <h2>Match {index + 1}</h2>
                 {match.messages.map((message, messageIndex) => (
             <div key={messageIndex}>
-              <p>Receiver: {message.receiver}</p>
+              <p><strong>{message.sender.name}</strong> </p>
+              <p>Age: {message.sender.age}</p>
+              <p>Bio: {message.sender.bio}</p>
               <p>Content: {message.content}</p>
-              </div>
-              ))}
-                {/* Add other match details as needed */}
-              {userData && (
+              {message.sender._id !== getUser()._id && (
                 <div>
-                  <h2>Matched User Info</h2>
-                  <p>Name: {userData.name}</p>
-                  <p>Bio: {userData.bio}</p>
-                  <p>Age: {userData.age}</p>
+                  {/* Add your buttons here */}
+                  <button>✔</button>
+                  <button>✖</button>
                 </div>
               )}
+              </div>
+              ))}
               </div>
             </li>
           ))}
