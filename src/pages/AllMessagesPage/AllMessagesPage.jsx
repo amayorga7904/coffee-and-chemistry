@@ -50,14 +50,10 @@ export default function AllMessages() {
           {matches.map((match, index) => (
             <li key={index}>
               <div>
-                {match.messages.map((message, messageIndex) => (
-                  <div key={messageIndex}>
-                    {message.sender._id !== getUser()._id && (
-                      <div>
-                        <p><strong>{message.sender.name}</strong></p>
-                        <Link to={`/messages/${match._id}`} state={{ matchData: match }}>View Messages</Link>
-                      </div>
-                    )}
+                {match.users.map(user => user._id !== getUser()._id && (
+                  <div key={user._id}>
+                    <p><strong>{user.name}</strong></p>
+                    <Link to={`/messages/${match._id}`} state={{ matchData: match }}>View Messages</Link>
                   </div>
                 ))}
               </div>
