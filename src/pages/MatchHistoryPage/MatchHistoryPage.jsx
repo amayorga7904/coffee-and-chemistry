@@ -87,9 +87,9 @@ export default function MatchHistoryPage() {
       <div>
         <h1>Your Matches</h1>
         {matches.length > 0 ? (
-        <ul>
+        <div>
           {matches.map((match, index) => (
-            <li key={index}>
+            <div key={index}>
               <div>
                 {match.messages.map((message, messageIndex) => (
             <div key={messageIndex}>
@@ -110,9 +110,9 @@ export default function MatchHistoryPage() {
               </div>
               ))}
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>Sorry, looks like no one likes you!</p>
       )}

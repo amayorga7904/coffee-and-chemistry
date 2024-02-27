@@ -93,9 +93,9 @@ export default function NewMatchPage() {
     <>
       <h1>Discover New Chemistry</h1>
       {loading && <div>Loading...</div>}
-      <ul>
+      <div>
         {filteredUsers.map((user) => (
-          <li key={user._id}>
+          <div key={user._id}>
             <div>
               <strong>Name:</strong> {user.name}
             </div>
@@ -108,9 +108,9 @@ export default function NewMatchPage() {
             <input type="text" value={content} onChange={handleContentChange} />
             <button onClick={() => setMatch(user._id, content)}>Create Match</button>
             <br />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </>
   );
 }
