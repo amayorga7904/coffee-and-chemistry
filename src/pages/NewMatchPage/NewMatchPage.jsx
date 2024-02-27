@@ -89,6 +89,23 @@ export default function NewMatchPage() {
   // Filter out the matched users from the list of other users
   const filteredUsers = otherUsers.filter(user => !matchedUsers.includes(user._id));
 
+  const rejectUser = async (userId) => {
+    const currentUser = getUser();
+    const token = getToken();
+    try {
+      await axios.put(`/api/matches/${currentUser._id}/reject/${userId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // Remove the rejected user from the list of other users
+      setOtherUsers(prevOtherUsers => prevOtherUsers.filter(user => user._id !== userId));
+    } catch (error) {
+      console.error('Error rejecting user:', error);
+    }
+  };
+  
+
   return (
     <>
       <h1>Discover New Chemistry</h1>
@@ -107,6 +124,7 @@ export default function NewMatchPage() {
             </div>
             <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
             <button onClick={() => setMatch(user._id, content)}>✔</button>
+            <button onClick={() => rejectUser(user._id)}>✖</button>
             <br />
           </div>
         ))}
