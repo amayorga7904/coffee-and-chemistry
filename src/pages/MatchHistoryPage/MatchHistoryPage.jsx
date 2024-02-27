@@ -3,31 +3,33 @@ import { useEffect, useState } from 'react';
 import { getToken, getUser } from '../../utilities/users-service';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function MatchHistoryPage() {
     const location = useLocation();
-    console.log('Location state:', location.state);
+    // console.log('Location state:', location.state);
     const { newMatchData } = location.state || {};
     const userData = newMatchData?.userData;
     const [matches, setMatches] = useState([]);
     const [loading, setLoading] = useState(true);
     const { userId } = useParams()
+    const navigate = useNavigate()
 
     const fetchMatches = async () => {
         try {
             const currentUser = getUser()
-            console.log('current user:', currentUser)
+            // console.log('current user:', currentUser)
             const token = getToken();
             const response = await axios.get(`/api/matches/${currentUser._id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log('response:', response.data)
+            // console.log('response:', response.data)
             const matchesData = response.data.filter(match => match.status === 'accepted' || 'pending')
             setMatches(matchesData);
-            console.log('matches data:', matchesData)
-            console.log('matches:', matches)
+            // console.log('matches data:', matchesData)
+            // console.log('matches:', matches)
             setLoading(false);
         } catch (error) {
             console.error('Error fetching matches:', error.response ? error.response.data : error.message);
@@ -57,7 +59,7 @@ export default function MatchHistoryPage() {
       }
     }
     
-    const handleAccept = async (matchId) => {
+    const handleAccept = async (match, matchId) => {
       const currentUser = getUser();
       const token = getToken();
     
@@ -70,6 +72,10 @@ export default function MatchHistoryPage() {
         });
         // Assuming you want to update the matches state after rejecting a match
         fetchMatches();
+        console.log('this is the match data', match)
+        console.log('this is the matchId', matchId)
+        console.log('this is the match id', match._id)
+        navigate(`/messages/${matchId}`, { state: { matchData: match } })
       } catch (error) {
         console.error('Error accepting match:', error);
       }
@@ -93,7 +99,7 @@ export default function MatchHistoryPage() {
               <p>Content: {message.content}</p>
                   {match.status === 'pending' && (
                   <div> 
-                  <button onClick={() => handleAccept(match._id)}>✔</button>
+                  <button onClick={() => handleAccept(match, match._id)}>✔</button>
                   <button onClick={() => handleReject(match._id)}>✖</button>
                   </div>
                   )}
