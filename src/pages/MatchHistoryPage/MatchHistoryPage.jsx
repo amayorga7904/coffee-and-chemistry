@@ -4,6 +4,7 @@ import { getToken, getUser } from '../../utilities/users-service';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useMatchData } from './MatchDataContext';
 
 export default function MatchHistoryPage() {
     const location = useLocation();
@@ -14,6 +15,7 @@ export default function MatchHistoryPage() {
     const [loading, setLoading] = useState(true);
     const { userId } = useParams()
     const navigate = useNavigate()
+    const { setMatchData } = useMatchData();
 
     const fetchMatches = async () => {
         try {
@@ -39,7 +41,7 @@ export default function MatchHistoryPage() {
 
     useEffect(() => {
         fetchMatches();
-    }, []);
+    }, [setMatchData]);
     
     const handleReject = async (matchId) => {
       const currentUser = getUser();
