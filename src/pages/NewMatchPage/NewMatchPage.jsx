@@ -105,8 +105,8 @@ export default function NewMatchPage() {
             <div>
               <strong>Age:</strong> {user.age}
             </div>
-            <input type="text" value={content} onChange={handleContentChange} />
-            <button onClick={() => setMatch(user._id, content)}>Create Match</button>
+            <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
+            <button onClick={() => setMatch(user._id, content)}>✔</button>
             <br />
           </div>
         ))}
