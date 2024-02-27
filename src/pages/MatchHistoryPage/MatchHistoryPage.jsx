@@ -74,9 +74,6 @@ export default function MatchHistoryPage() {
         });
         // Assuming you want to update the matches state after rejecting a match
         fetchMatches();
-        console.log('this is the match data', match)
-        console.log('this is the matchId', matchId)
-        console.log('this is the match id', match._id)
         navigate(`/messages/${matchId}`, { state: { matchData: match } })
       } catch (error) {
         console.error('Error accepting match:', error);
