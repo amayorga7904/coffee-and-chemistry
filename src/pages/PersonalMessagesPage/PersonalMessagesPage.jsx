@@ -1,34 +1,33 @@
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom";
+import { getUser } from "../../utilities/users-service";
+import { useState, useEffect } from "react";
 
 export default function PersonalMessagesPage() {
     const location = useLocation();
     const { matchData } = location.state || {};
+    const [currentUser, setCurrentUser] = useState(null);
 
-    
-    // Now you can access the match data
-    console.log('Person With Whom You Matched:', matchData.users[0].name)
-    console.log('Match content:', matchData.messages[0].content)
-    console.log('Match status:', matchData.status)
-    
-    if (!matchData || !matchData.users || !matchData.messages) {
-        return (
-            <div>
-                <h1>Error: Match data not found or incomplete</h1>
-                <p>Please go back and try again.</p>
-            </div>
-        );
-    }
+    useEffect(() => {
+        setCurrentUser(getUser());
+    }, []);
+
+    // Now you can access the match data and the current user
+    console.log('Match data:', matchData);
+    console.log('Current user:', currentUser);
+
     return (
         <div>
             <h1>Personal Messages</h1>
-            {matchData && (
+            {matchData && currentUser && (
                 <div>
-                    <p>Match name: {matchData.users[0].name}</p>
-                    <p>Match content: {matchData.messages[0].content}</p>
-                    <p>Match status: {matchData.status}</p>
-                    {/* Render other properties of matchData */}
+                    {matchData.messages.map((message, index) => (
+                        <p key={index}>
+                            <strong>{message.sender._id === currentUser._id ? currentUser.name : matchData.users.find(user => user._id !== currentUser._id).name}</strong>: {message.content}
+                        </p>
+                    ))}
                 </div>
             )}
         </div>
     );
 }
+

@@ -2,8 +2,6 @@ import { useLocation, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getToken, getUser } from '../../utilities/users-service';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 export default function AllMessages() {
   const location = useLocation();
@@ -12,8 +10,6 @@ export default function AllMessages() {
   const userData = matchData.userData;
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { userId } = useParams();
-  const navigate = useNavigate();
 
   const fetchMatches = async () => {
     try {
