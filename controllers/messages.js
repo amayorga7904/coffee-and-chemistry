@@ -1,6 +1,6 @@
 const Match = require('../models/match')
 
-const create = async () => {
+const create = async (req, res) => {
     const senderId = req.user._id
     const match = await Match.findById(req.params.id)
     const content = req.body.content
