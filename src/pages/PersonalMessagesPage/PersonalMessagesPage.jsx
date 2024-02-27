@@ -11,6 +11,10 @@ export default function PersonalMessagesPage() {
         setCurrentUser(getUser());
     }, []);
 
+    const getSenderName = (message) => {
+        return message.sender._id === currentUser._id ? currentUser.name : matchData.users.find(user => user._id !== currentUser._id).name;
+    };
+
     // Now you can access the match data and the current user
     console.log('Match data:', matchData);
     console.log('Current user:', currentUser);
@@ -22,7 +26,7 @@ export default function PersonalMessagesPage() {
                 <div>
                     {matchData.messages.map((message, index) => (
                         <p key={index}>
-                            <strong>{message.sender._id === currentUser._id ? currentUser.name : matchData.users.find(user => user._id !== currentUser._id).name}</strong>: {message.content}
+                            <strong>{getSenderName(message)}</strong>: {message.content}
                         </p>
                     ))}
                 </div>
