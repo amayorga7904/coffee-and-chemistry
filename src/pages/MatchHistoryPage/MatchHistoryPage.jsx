@@ -28,7 +28,7 @@ export default function MatchHistoryPage() {
                 },
             });
             // console.log('response:', response.data)
-            const matchesData = response.data.filter(match => match.status === 'accepted' || 'pending')
+            const matchesData = response.data.filter(match => match.status === 'pending')
             setMatches(matchesData);
             // console.log('matches data:', matchesData)
             // console.log('matches:', matches)
@@ -114,7 +114,7 @@ export default function MatchHistoryPage() {
           ))}
         </ul>
       ) : (
-        <p>No matches yet</p>
+        <p>Sorry, looks like no one likes you!</p>
       )}
       </div>
     );
