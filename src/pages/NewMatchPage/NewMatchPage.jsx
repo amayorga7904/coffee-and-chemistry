@@ -41,7 +41,7 @@ export default function NewMatchPage() {
     const fetchMatchedUsers = async () => {
       try {
         const token = getToken();
-        const response = await axios.get(`/api/matches/${userId}`, {
+        const response = await axios.get(`/matches/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,7 +66,7 @@ export default function NewMatchPage() {
     };
 
     try {
-      const response = await axios.post('/api/matches/', matchData, {
+      const response = await axios.post('/matches/', matchData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -93,7 +93,7 @@ export default function NewMatchPage() {
     const currentUser = getUser();
     const token = getToken();
     try {
-      await axios.put(`/api/matches/${currentUser._id}/reject/${userId}`, {}, {
+      await axios.put(`/matches/${currentUser._id}/reject/${userId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

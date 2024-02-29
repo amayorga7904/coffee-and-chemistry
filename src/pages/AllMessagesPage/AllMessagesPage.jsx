@@ -15,7 +15,7 @@ export default function AllMessages() {
     try {
       const currentUser = getUser();
       const token = getToken();
-      const response = await axios.get(`/api/matches/${currentUser._id}`, {
+      const response = await axios.get(`/matches/${currentUser._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

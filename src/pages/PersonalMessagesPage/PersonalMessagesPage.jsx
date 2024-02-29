@@ -25,7 +25,7 @@ export default function PersonalMessagesPage() {
     const handleSubmit = async () => {
         try {
             const token = getToken();
-            const response = await axios.post(`/api/messages/${matchData._id}`, {
+            const response = await axios.post(`/messages/${matchData._id}`, {
                 content: messageContent
             }, {
                 headers: {

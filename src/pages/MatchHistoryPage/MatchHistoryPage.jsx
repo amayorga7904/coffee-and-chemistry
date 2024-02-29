@@ -22,7 +22,7 @@ export default function MatchHistoryPage() {
             const currentUser = getUser()
             // console.log('current user:', currentUser)
             const token = getToken();
-            const response = await axios.get(`/api/matches/${currentUser._id}`, {
+            const response = await axios.get(`/matches/${currentUser._id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -49,7 +49,7 @@ export default function MatchHistoryPage() {
     
       try {
         // Instead of deleting, update match status to "rejected"
-        await axios.put(`/api/matches/${currentUser._id}/reject/${matchId}`, { status: 'rejected' }, {
+        await axios.put(`/matches/${currentUser._id}/reject/${matchId}`, { status: 'rejected' }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -67,7 +67,7 @@ export default function MatchHistoryPage() {
     
       try {
         // Instead of deleting, update match status to "rejected"
-        await axios.put(`/api/matches/${currentUser._id}/accept/${matchId}`, { status: 'accepted' }, {
+        await axios.put(`/matches/${currentUser._id}/accept/${matchId}`, { status: 'accepted' }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
