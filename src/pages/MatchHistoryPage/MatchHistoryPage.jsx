@@ -98,10 +98,9 @@ export default function MatchHistoryPage() {
                   alt="Profile" 
                   style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
                 />
-              <p><strong>{message.sender.name}</strong> </p>
-              <p>Age: {message.sender.age}</p>
-              <p>Bio: {message.sender.bio}</p>
-              <p>Content: {message.content}</p>
+              <p><strong>{message.sender.name}</strong> {message.sender.age}</p>
+              <p>{message.sender.bio}</p>
+              <p>"{message.content}"</p>
                   {match.status === 'pending' && (
                   <div> 
                   <button onClick={() => handleAccept(match, match._id)}>✔</button>
