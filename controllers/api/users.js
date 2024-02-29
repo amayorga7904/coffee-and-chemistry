@@ -10,10 +10,8 @@ const uploadImage = async (req, res, next) => {
       if (req.file) {
           const imageUrl = req.file.location;
           const userId = req.user._id;
-
           // Update user data in the database with the image URL
           const updatedUser = await User.findByIdAndUpdate(userId, { profilePicture: imageUrl }, { new: true });
-
           if (updatedUser) {
               res.status(200).json({ user: updatedUser });
           } else {
@@ -61,12 +59,9 @@ function checkToken(req, res) {
 async function showAccounts(req, res) {
   try {
     const currentUser = req.user._id;
-
     // Find all matches where the current user's ID appears as the sender or receiver
     const matches = await Match.find({ users: currentUser });
-
     console.log('backend-matches', matches);
-
     // Get all user IDs involved in matches
     const matchedUserIds = matches.reduce((acc, match) => {
       console.log('match', match);
@@ -77,13 +72,10 @@ async function showAccounts(req, res) {
       });
       return acc;
     }, []);
-
     // Fetch all users except the current user
     let users = await User.find({ _id: { $ne: currentUser,  $nin: matchedUserIds} });
-
     // Filter out matched users from the list of all users
     users = users.filter(user => !matchedUserIds.includes(user._id.toString())); // Convert ObjectId to string for comparison
-
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -91,32 +83,17 @@ async function showAccounts(req, res) {
   }
 }
 
-
-
-// async function showAccounts(req, res) {
-//   try {
-//     const currentUser = req.user._id;
-    
-//     // Find all matches where the current user's ID appears as the sender or receiver
-//     const matchedUsers = await Match.find({
-//       $or: [{ sender: currentUser }, { receiver: currentUser }]
-//     })
-//     console.log('backend matched users:', matchedUsers);
-    
-//     // Fetch all users except the current user
-//     let allUsers = await User.find({ _id: { $ne: currentUser } });
-//     console.log('All users:', allUsers);
-    
-//     // Filter out the matched users from the list of all users
-//     let users = allUsers.filter(user => !matchedUsers.includes(user._id.toString()));
-//     console.log('Filtered users:', users);
-    
-//     res.json(users);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// }
+async function showProfile(req, res) {
+  try {
+    const currentUser = req.user._id;
+    let user = await User.find({ _id: currentUser });
+    console.log('this is the mfn user:', user)
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 
 
@@ -137,5 +114,6 @@ module.exports = {
   login,
   checkToken,
   showAccounts,
-  uploadImage
+  uploadImage,
+  showProfile
 };

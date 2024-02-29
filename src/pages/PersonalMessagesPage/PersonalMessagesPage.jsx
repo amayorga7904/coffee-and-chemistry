@@ -71,7 +71,7 @@ export default function PersonalMessagesPage() {
                                 alt="Profile" 
                                 style={{ width: '50px', height: '50px' }} // Set width and height for the profile picture
                             />
-                            <span>: {message.content}</span>
+                            <span> {message.content}</span>
                         </p>
                     ))}
                     <input type="text" value={messageContent} onChange={handleChange}/>

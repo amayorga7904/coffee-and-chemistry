@@ -8,7 +8,7 @@ const ensureLoggedIn = require('../../config/ensureLoggedIn');
 // PUT route to update user profile image
 router.put("/:userId/profile-image", uploadImage.single("image"), ensureLoggedIn, usersCtrl.uploadImage)
 
-
+router.get('/:id', ensureLoggedIn, usersCtrl.showProfile)
 // All paths start with '/api/users'
 // GET /api/users/check-token
 router.get('/check-token', usersCtrl.checkToken);
