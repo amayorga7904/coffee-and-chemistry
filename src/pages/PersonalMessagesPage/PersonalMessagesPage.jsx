@@ -18,8 +18,13 @@ export default function PersonalMessagesPage() {
         }
     }, [matchData]);
 
-    const getSenderName = (message) => {
-        return message.sender._id === currentUser._id ? currentUser.name : matchData.users.find(user => user._id !== currentUser._id).name;
+    const getSenderInfo = (message) => {
+        const sender = message.sender;
+        if (sender._id === currentUser._id) {
+            return currentUser;
+        } else {
+            return matchData.users.find(user => user._id !== currentUser._id);
+        }
     };
 
     const handleSubmit = async () => {
@@ -60,7 +65,12 @@ export default function PersonalMessagesPage() {
                 <div>
                     {messages.map((message, index) => (
                         <p key={index}>
-                            <strong>{getSenderName(message)}</strong>: {message.content}
+                            <img 
+                                src={getSenderInfo(message).profilePicture} 
+                                alt="Profile" 
+                                style={{ width: '50px', height: '50px' }} // Set width and height for the profile picture
+                            />
+                            <span>: {message.content}</span>
                         </p>
                     ))}
                     <input type="text" value={messageContent} onChange={handleChange}/>
