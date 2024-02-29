@@ -92,6 +92,11 @@ export default function MatchHistoryPage() {
             <div key={messageIndex}>
               {message.sender._id !== getUser()._id && (
                 <div>
+                <img 
+                  src={message.sender.profilePicture}
+                  alt="Profile" 
+                  style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
+                />
               <p><strong>{message.sender.name}</strong> </p>
               <p>Age: {message.sender.age}</p>
               <p>Bio: {message.sender.bio}</p>

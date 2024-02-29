@@ -113,6 +113,11 @@ export default function NewMatchPage() {
       <div>
         {filteredUsers.map((user) => (
           <div key={user._id}>
+            <img 
+              src={user.profilePicture}
+              alt="Profile" 
+              style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
+            />
             <div>
               <strong>Name:</strong> {user.name}
             </div>
