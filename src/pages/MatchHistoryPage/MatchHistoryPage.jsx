@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useMatchData } from './MatchDataContext';
+import defaultProfilePicture from '../../utilities/default-image' 
 
 export default function MatchHistoryPage() {
     const location = useLocation();
@@ -93,7 +94,7 @@ export default function MatchHistoryPage() {
               {message.sender._id !== getUser()._id && (
                 <div>
                 <img 
-                  src={message.sender.profilePicture}
+                  src={message.sender.profilePicture || defaultProfilePicture}
                   alt="Profile" 
                   style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
                 />

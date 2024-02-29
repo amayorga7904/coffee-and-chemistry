@@ -4,6 +4,7 @@ import { getToken, getUser } from '../../utilities/users-service';
 import { useNavigate } from 'react-router-dom';
 import { useUserData } from './UserDataContext';
 import { useParams } from 'react-router-dom';
+import defaultProfilePicture from '../../utilities/default-image' 
 
 export default function NewMatchPage() {
   const { setUserData } = useUserData();
@@ -114,7 +115,7 @@ export default function NewMatchPage() {
         {filteredUsers.map((user) => (
           <div key={user._id}>
             <img 
-              src={user.profilePicture}
+              src={user.profilePicture || defaultProfilePicture}
               alt="Profile" 
               style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
             />

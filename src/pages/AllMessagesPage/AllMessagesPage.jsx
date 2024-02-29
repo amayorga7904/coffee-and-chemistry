@@ -2,6 +2,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getToken, getUser } from '../../utilities/users-service';
 import axios from 'axios';
+import defaultProfilePicture from '../../utilities/default-image' 
 
 export default function AllMessages() {
   const location = useLocation();
@@ -48,7 +49,7 @@ export default function AllMessages() {
               <div>
                 {match.users.map(user => user._id !== getUser()._id && (
                   <div key={user._id}>
-                    <Link to={`/messages/${match._id}`} state={{ matchData: match }}><img src={user.profilePicture} alt="Profile" style={{ width: '50px', height: '50px' }} />  <strong>{user.name}</strong></Link>
+                    <Link to={`/messages/${match._id}`} state={{ matchData: match }}><img src={user.profilePicture || defaultProfilePicture} alt="Profile" style={{ width: '50px', height: '50px' }} />  <strong>{user.name}</strong></Link>
                     <br />
                     <br />
                   </div>
