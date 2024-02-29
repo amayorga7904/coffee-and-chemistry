@@ -42,20 +42,21 @@ export default function AllMessages() {
       {loading ? (
         <p>Loading...</p>
       ) : matches.length > 0 ? (
-        <ul>
+        <div>
           {matches.map((match, index) => (
-            <li key={index}>
+            <div key={index}>
               <div>
                 {match.users.map(user => user._id !== getUser()._id && (
                   <div key={user._id}>
-                    <p><strong>{user.name}</strong></p>
-                    <Link to={`/messages/${match._id}`} state={{ matchData: match }}>View Messages</Link>
+                    <Link to={`/messages/${match._id}`} state={{ matchData: match }}><img src={user.profilePicture} alt="Profile" style={{ width: '50px', height: '50px' }} />  <strong>{user.name}</strong></Link>
+                    <br />
+                    <br />
                   </div>
                 ))}
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>No messages yet</p>
       )}
