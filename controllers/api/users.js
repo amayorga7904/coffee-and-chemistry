@@ -3,13 +3,30 @@ const bcrypt = require('bcrypt');
 const User = require('../../models/user');
 const Match = require('../../models/match')
 
-module.exports = {
-  create,
-  login,
-  checkToken,
-  showAccounts
-};
 
+
+const uploadImage = async (req, res, next) => {
+  try {
+      if (req.file) {
+          const imageUrl = req.file.location;
+          const userId = req.user._id;
+
+          // Update user data in the database with the image URL
+          const updatedUser = await User.findByIdAndUpdate(userId, { profilePicture: imageUrl }, { new: true });
+
+          if (updatedUser) {
+              res.status(200).json({ user: updatedUser });
+          } else {
+              res.status(404).json({ error: 'User not found' });
+          }
+      } else {
+          res.status(400).json({ error: 'No image file uploaded' });
+      }
+  } catch (error) {
+      console.error('Error updating user profile image:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 async function create(req, res) {
   try {
@@ -114,3 +131,11 @@ function createJWT(user) {
     { expiresIn: '24h' }
   );
 }
+
+module.exports = {
+  create,
+  login,
+  checkToken,
+  showAccounts,
+  uploadImage
+};
