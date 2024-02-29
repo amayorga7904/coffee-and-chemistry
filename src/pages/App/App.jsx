@@ -8,6 +8,7 @@ import MatchHistoryPage from '../MatchHistoryPage/MatchHistoryPage';
 import NavBar from '../../components/NavBar/NavBar';
 import AllMessagesPage from '../AllMessagesPage/AllMessagesPage';
 import PersonalMessagesPage from '../PersonalMessagesPage/PersonalMessagesPage';
+import HomePage from '../../HomePage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -24,6 +25,7 @@ export default function App() {
               <Route path="/matches" element={<MatchHistoryPage />} />
               <Route path="/messages" element={<AllMessagesPage />} />
               <Route path="/messages/:matchId" element={<PersonalMessagesPage />} />
+              <Route path="/" element={<HomePage />} />
             </Routes>
           </>
           :
