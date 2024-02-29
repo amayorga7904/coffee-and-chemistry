@@ -120,13 +120,10 @@ export default function NewMatchPage() {
               style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
             />
             <div>
-              <strong>Name:</strong> {user.name}
+              <strong>{user.name}</strong> {user.age}
             </div>
             <div>
-              <strong>Bio:</strong> {user.bio}
-            </div>
-            <div>
-              <strong>Age:</strong> {user.age}
+             {user.bio}
             </div>
             <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
             <button onClick={() => setMatch(user._id, content)}>✔</button>
