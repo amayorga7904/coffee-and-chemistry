@@ -22,10 +22,12 @@ const userSchema = new Schema({
   age: {
     type: Number,
     required: true,
-    min: 18
+    min: 18,
+    max: 99,
    },
    bio: {
-    type: String
+    type: String,
+    required: true,
    },
    profilePicture: { 
     type: String,

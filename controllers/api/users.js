@@ -83,18 +83,6 @@ async function showAccounts(req, res) {
   }
 }
 
-async function showProfile(req, res) {
-  try {
-    const currentUser = req.user._id;
-    let user = await User.find({ _id: currentUser });
-    console.log('this is the mfn user:', user)
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
-
 
 
 
@@ -115,5 +103,4 @@ module.exports = {
   checkToken,
   showAccounts,
   uploadImage,
-  showProfile
 };
