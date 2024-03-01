@@ -11,6 +11,7 @@ export default function PersonalMessagesPage() {
     const [currentUser, setCurrentUser] = useState(null);
     const [messageContent, setMessageContent] = useState('');
     const [messages, setMessages] = useState([]);
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         setCurrentUser(getUser());
@@ -55,9 +56,24 @@ export default function PersonalMessagesPage() {
         setMessageContent(e.target.value);
     };
 
-    // Now you can access the match data and the current user
-    console.log('Match data:', matchData);
-    console.log('Current user:', currentUser);
+    const handleDelete = async (matchId) => {
+        try {
+            // Get the current user and token
+            const token = getToken();
+    
+            // Make a DELETE request to delete the match entry
+            await axios.delete(`/matches/${matchId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setSuccessMessage('Successfully Deleted the Conversation! Get Out')
+            // Optionally, you might want to update the UI to reflect the deletion
+        } catch (error) {
+            console.error('Error deleting:', error);
+        }
+    };
+    
 
     return (
         <div>
@@ -79,6 +95,10 @@ export default function PersonalMessagesPage() {
                     <button onClick={handleSubmit} >Send</button>
                 </div>
             )}
+            <br />
+            <br />
+            <button onClick={() => handleDelete(matchData._id)}>Delete</button>
+            {successMessage && <p className='success-message'>{successMessage}</p>}
         </div>
     );
 }

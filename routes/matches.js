@@ -12,4 +12,6 @@ router.put('/:id/reject/:matchId', ensureLoggedIn, matchCtrl.rejectMatch)
 
 router.put('/:id/accept/:matchId', ensureLoggedIn, matchCtrl.acceptMatch)
 
+router.delete('/:id', ensureLoggedIn, matchCtrl.delete)
+
 module.exports = router
