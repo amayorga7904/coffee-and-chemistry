@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useUserData } from './UserDataContext';
 import { useParams } from 'react-router-dom';
 import defaultProfilePicture from '../../utilities/default-image';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function NewMatchPage() {
   const { setUserData } = useUserData();
@@ -102,30 +104,38 @@ export default function NewMatchPage() {
   const currentProfile = otherUsers[currentIndex];
 
   return (
-    <>
-      <h1>Discover New Chemistry</h1>
-      {loading && <div>Loading...</div>}
-      <div>
-        {currentProfile && (
-          <div key={currentProfile._id}>
-            <img 
-              src={currentProfile.profilePicture || defaultProfilePicture}
-              alt="Profile" 
-              style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
-            />
-            <div>
-              <p><strong>{currentProfile.name}</strong> {currentProfile.age}</p>
+    <div>
+      <>
+        <h1>Discover New Chemistry</h1>
+        <div>
+          {loading && <div>Loading...</div>}
+          {currentProfile && (
+            <div key={currentProfile._id}>
+              <Card>
+                <Card.Img variant="top" 
+                  src={currentProfile.profilePicture || defaultProfilePicture}
+                  alt="Profile" 
+                  style={{ width: '300px', height: '300px' }} // Set width and height for the profile picture
+                />
+                <Card.Body>
+                  <Card.Title><strong>{currentProfile.name}</strong> {currentProfile.age}</Card.Title>
+                  <Card.Text>
+                    {currentProfile.bio}
+                  </Card.Text>
+                  <Card.Text>
+                    <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
+                  </Card.Text>
+                </Card.Body>
+                <Card.Body>
+                  <button onClick={() => setMatch(currentProfile._id, content)}>✔</button>
+                  <button onClick={() => rejectUser(currentProfile._id)}>✖</button>
+                </Card.Body>
+              </Card>
+              <br />
             </div>
-            <div>
-              <p>{currentProfile.bio}</p>
-            </div>
-            <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
-            <button onClick={() => setMatch(currentProfile._id, content)}>✔</button>
-            <button onClick={() => rejectUser(currentProfile._id)}>✖</button>
-            <br />
-          </div>
-        )}
-      </div>
-    </>
+          )}
+        </div>
+      </>
+    </div>
   );
 }
