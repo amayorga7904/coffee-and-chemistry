@@ -4,7 +4,7 @@ import { getToken, getUser } from '../../utilities/users-service';
 import { useNavigate } from 'react-router-dom';
 import { useUserData } from './UserDataContext';
 import { useParams } from 'react-router-dom';
-import defaultProfilePicture from '../../utilities/default-image' 
+import defaultProfilePicture from '../../utilities/default-image';
 
 export default function NewMatchPage() {
   const { setUserData } = useUserData();
@@ -14,6 +14,7 @@ export default function NewMatchPage() {
   const navigate = useNavigate();
   const [content, setContent] = useState('');
   const [matchedUsers, setMatchedUsers] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const token = getToken();
@@ -48,8 +49,6 @@ export default function NewMatchPage() {
           },
         });
         const matchedUsersIds = response.data.map(match => match.receiver);
-        console.log('response data in new match page:', response.data)
-        console.log('matched users ids:', matchedUsersIds)
         setMatchedUsers(matchedUsersIds);
       } catch (error) {
         console.error('Error fetching matched users:', error);
@@ -72,12 +71,9 @@ export default function NewMatchPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('response data', response.data);
-      console.log('Match created successfully');
-      console.log('content', matchData.content);
-      // Add the matched user to the list of matched users
       setMatchedUsers(prevMatchedUsers => [...prevMatchedUsers, receiverId]);
       setContent('');
+      setCurrentIndex(prevIndex => prevIndex + 1); // Move to the next profile
     } catch (error) {
       console.error('Error creating match:', error);
     }
@@ -86,9 +82,6 @@ export default function NewMatchPage() {
   const handleContentChange = (e) => {
     setContent(e.target.value);
   };
-
-  // Filter out the matched users from the list of other users
-  const filteredUsers = otherUsers.filter(user => !matchedUsers.includes(user._id));
 
   const rejectUser = async (userId) => {
     const currentUser = getUser();
@@ -99,38 +92,39 @@ export default function NewMatchPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      // Remove the rejected user from the list of other users
       setOtherUsers(prevOtherUsers => prevOtherUsers.filter(user => user._id !== userId));
+      setCurrentIndex(prevIndex => prevIndex + 1); // Move to the next profile
     } catch (error) {
       console.error('Error rejecting user:', error);
     }
   };
-  
+
+  const currentProfile = otherUsers[currentIndex];
 
   return (
     <>
       <h1>Discover New Chemistry</h1>
       {loading && <div>Loading...</div>}
       <div>
-        {filteredUsers.map((user) => (
-          <div key={user._id}>
+        {currentProfile && (
+          <div key={currentProfile._id}>
             <img 
-              src={user.profilePicture || defaultProfilePicture}
+              src={currentProfile.profilePicture || defaultProfilePicture}
               alt="Profile" 
               style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
             />
             <div>
-              <p><strong>{user.name}</strong> {user.age}</p>
+              <p><strong>{currentProfile.name}</strong> {currentProfile.age}</p>
             </div>
             <div>
-             <p>{user.bio}</p>
+              <p>{currentProfile.bio}</p>
             </div>
             <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
-            <button onClick={() => setMatch(user._id, content)}>✔</button>
-            <button onClick={() => rejectUser(user._id)}>✖</button>
+            <button onClick={() => setMatch(currentProfile._id, content)}>✔</button>
+            <button onClick={() => rejectUser(currentProfile._id)}>✖</button>
             <br />
           </div>
-        ))}
+        )}
       </div>
     </>
   );
