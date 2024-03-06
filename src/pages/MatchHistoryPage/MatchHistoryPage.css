@@ -1,0 +1,21 @@
+.match-card {
+    margin-bottom: 20px;
+  }
+  
+  .accept-button,
+  .reject-button {
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+  
+  .accept-button {
+    background-color: white; /* Green */
+    color: purple;
+  }
+  
+  .reject-button {
+    background-color: purple; /* Red */
+    color: white;
+  }
+  

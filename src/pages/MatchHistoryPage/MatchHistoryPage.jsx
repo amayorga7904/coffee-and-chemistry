@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useMatchData } from './MatchDataContext';
 import defaultProfilePicture from '../../utilities/default-image' 
+import { Card, Button } from 'react-bootstrap'; // Import Card and Button components from react-bootstrap
+import './MatchHistoryPage.css'; 
 
 
 export default function MatchHistoryPage() {
@@ -86,39 +88,48 @@ export default function MatchHistoryPage() {
       <div>
         <h1>Your Matches</h1>
         {matches.length > 0 ? (
-        <div>
-          {matches.map((match, index) => (
-            <div key={index}>
-              <div>
-                {match.messages.map((message, messageIndex) => (
-            <div key={messageIndex}>
-              {message.sender._id !== getUser()._id && (
+          <div>
+            {matches.map((match, index) => (
+              <div key={index}>
                 <div>
-                <img 
-                  src={message.sender.profilePicture || defaultProfilePicture}
-                  alt="Profile" 
-                  style={{ width: '100px', height: '100px' }} // Set width and height for the profile picture
-                />
-              <p><strong>{message.sender.name}</strong> {message.sender.age}</p>
-              <p>{message.sender.bio}</p>
-              <p>"{message.content}"</p>
-                  {match.status === 'pending' && (
-                  <div> 
-                  <button onClick={() => handleAccept(match, match._id)}>✔</button>
-                  <button onClick={() => handleReject(match._id)}>✖</button>
-                  </div>
-                  )}
+                  {match.messages.map((message, messageIndex) => (
+                    <div key={messageIndex}>
+                      {message.sender._id !== getUser()._id && (
+                        <Card className="match-card">
+                          <Card.Img
+                            variant="top"
+                            src={message.sender.profilePicture || defaultProfilePicture}
+                            alt="Profile"
+                            style={{ width: '300px', height: '300px' }}
+                          />
+                          <Card.Body>
+                            <Card.Title>
+                              <strong>{message.sender.name}</strong> {message.sender.age}
+                            </Card.Title>
+                            <Card.Text>{message.sender.bio}</Card.Text>
+                            <Card.Text>"{message.content}"</Card.Text>
+                            {match.status === 'pending' && (
+                              <div>
+                                <Button className="accept-button" onClick={() => handleAccept(match, match._id)}>
+                                  ✔
+                                </Button>
+                                <Button className="reject-button" onClick={() => handleReject(match._id)}>
+                                  ✖
+                                </Button>
+                              </div>
+                            )}
+                          </Card.Body>
+                        </Card>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              )}
               </div>
-              ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>Sorry, looks like no one likes you!</p>
-      )}
+            ))}
+          </div>
+        ) : (
+          <p>Sorry, looks like no one likes you!</p>
+        )}
       </div>
     );
   }
