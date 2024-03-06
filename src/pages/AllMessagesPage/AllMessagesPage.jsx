@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getToken, getUser } from '../../utilities/users-service';
 import axios from 'axios';
 import defaultProfilePicture from '../../utilities/default-image' 
+import './AllMessagesPage.css'
 
 export default function AllMessages() {
   const location = useLocation();
@@ -38,20 +39,21 @@ export default function AllMessages() {
   console.log('Matches:', matches); // Log matches state
 
   return (
-    <div>
+    <div className="your-messages-container">
       <h1>Your Messages</h1>
       {loading ? (
         <p>Loading...</p>
       ) : matches.length > 0 ? (
-        <div>
+        <div className="messages-list">
           {matches.map((match, index) => (
-            <div key={index}>
-              <div>
+            <div key={index} className="message-item">
+              <div className="message-preview">
                 {match.users.map(user => user._id !== getUser()._id && (
-                  <div key={user._id}>
-                    <Link to={`/messages/${match._id}`} state={{ matchData: match }}><img src={user.profilePicture || defaultProfilePicture} alt="Profile" style={{ width: '50px', height: '50px' }} />  <strong>{user.name}</strong></Link>
-                    <br />
-                    <br />
+                  <div key={user._id} className="user-preview">
+                    <Link to={`/messages/${match._id}`} state={{ matchData: match }} className="user-link">
+                      <img src={user.profilePicture || defaultProfilePicture} alt="Profile" className="profile-picture" />
+                      <strong className="user-name">{user.name}</strong>
+                    </Link>
                   </div>
                 ))}
               </div>

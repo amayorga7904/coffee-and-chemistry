@@ -1,0 +1,41 @@
+.your-messages-container {
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .messages-list {
+    margin-top: 20px;
+  }
+  
+  .message-item {
+    margin-bottom: 10px;
+  }
+  
+  .user-preview {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-link {
+    text-decoration: none;
+    color: black;
+  }
+  
+  .user-name {
+    font-weight: bold;
+  }
+  
+  .message-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  

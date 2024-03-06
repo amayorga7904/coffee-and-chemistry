@@ -75,32 +75,27 @@ export default function PersonalMessagesPage() {
         }
     };
     
-
-    return (
-        <div>
-            <h1>Personal Messages</h1>
-            {matchData && currentUser && (
-                <div>
-                    {messages.map((message, index) => (
-                        <p key={index}>
-                            <img 
-                                id="picture"
-                                src={getSenderInfo(message).profilePicture || defaultProfilePicture} 
-                                alt="Profile" 
-                                style={{ width: '50px', height: '50px' }} // Set width and height for the profile picture
-                            />
-                            <span> {message.content}</span>
-                        </p>
-                    ))}
-                    <input type="text" value={messageContent} onChange={handleChange}/>
-                    <br />
-                    <button onClick={handleSubmit} >Send</button>
+        return (
+            <div className="personal-messages-container">
+              <h1>Personal Messages</h1>
+              {matchData && currentUser && (
+                <div className="messages-container">
+                  {messages.map((message, index) => (
+                    <div key={index} className={message.senderId === currentUser._id ? "sent-message" : "received-message"}>
+                      <img 
+                        className="profile-picture"
+                        src={getSenderInfo(message).profilePicture || defaultProfilePicture} 
+                        alt="Profile" 
+                      />
+                      <p className="message-content">{message.content}</p>
+                    </div>
+                  ))}
+                  <input type="text" value={messageContent} onChange={handleChange} className="message-input" />
+                  <button onClick={handleSubmit} className="send-button">Send</button>
                 </div>
-            )}
-            <br />
-            <br />
-            <button onClick={() => handleDelete(matchData._id)}>Delete</button>
-            {successMessage && <p className='success-message'>{successMessage}</p>}
-        </div>
-    );
-}
+              )}
+              <button onClick={() => handleDelete(matchData._id)} className="delete-button">Delete</button>
+              {successMessage && <p className='success-message'>{successMessage}</p>}
+            </div>
+          );
+        }
