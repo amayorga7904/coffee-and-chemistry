@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import * as userService from '../../utilities/users-service';
+import Nav from 'react-bootstrap/Nav';
 
 export default function NavBar({ user, setUser }) {
   function handleLogOut() {
@@ -8,17 +9,25 @@ export default function NavBar({ user, setUser }) {
   }
 
   return (
-    <nav>
-      <Link to="/matches">Match History</Link>
-      &nbsp; | &nbsp;
-      <Link to="/matches/new">New Match</Link>
-      &nbsp; | &nbsp;
-      <Link to="/messages">Messages</Link>
-      &nbsp; | &nbsp;
-      <Link to="/profile">Profile</Link>
-      &nbsp;&nbsp;
-      <span>Welcome, {user.name}</span>
-      &nbsp;&nbsp;<Link to="" onClick={handleLogOut}>Log Out</Link>
-    </nav>
+    <Nav fill variant="tabs" defaultActiveKey="/matches/new">
+      <Nav.Item>
+        <Nav.Link href="/matches/new">ℂ&ℂ</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="/matches">Matches</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="/profile">Profile</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="/messages">Messages</Nav.Link>
+      </Nav.Item>
+      <span>Welcome, {user.name}!</span>
+      <Nav.Item>
+        <Nav.Link href="" onClick={handleLogOut}>
+          Log Out
+        </Nav.Link>
+      </Nav.Item>
+    </Nav>
   );
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getToken } from "../../utilities/users-service";
 import defaultProfilePicture from '../../utilities/default-image' 
+import './PersonalMessagesPage.css'
 
 export default function PersonalMessagesPage() {
     const location = useLocation();
@@ -83,6 +84,7 @@ export default function PersonalMessagesPage() {
                     {messages.map((message, index) => (
                         <p key={index}>
                             <img 
+                                id="picture"
                                 src={getSenderInfo(message).profilePicture || defaultProfilePicture} 
                                 alt="Profile" 
                                 style={{ width: '50px', height: '50px' }} // Set width and height for the profile picture

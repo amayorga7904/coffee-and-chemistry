@@ -1,0 +1,6 @@
+.picture {
+    border-radius: 50%; /* Makes the image round */
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    margin-left: 10px; /* Add spacing between the icon and the image */
+  }

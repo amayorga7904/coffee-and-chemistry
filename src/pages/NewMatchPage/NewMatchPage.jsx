@@ -6,7 +6,7 @@ import { useUserData } from './UserDataContext';
 import { useParams } from 'react-router-dom';
 import defaultProfilePicture from '../../utilities/default-image';
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+
 
 export default function NewMatchPage() {
   const { setUserData } = useUserData();

@@ -90,6 +90,7 @@ export default function ProfilePage() {
                             style={{ width: '300px', height: '300px' }}
                         />
                         <br />
+                        <br />
                         {isEditingBio ? (
                             <textarea
                                 value={bio}
