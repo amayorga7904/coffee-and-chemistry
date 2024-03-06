@@ -23,7 +23,7 @@ export default function AllMessages() {
         },
       });
       const matchesData = response.data.filter(match => match.status === 'accepted');
-      console.log('Filtered Matches:', matchesData); // Log filtered matches
+      console.log('Filtered Matches:', matchesData); 
       setMatches(matchesData);
       setLoading(false);
     } catch (error) {
@@ -36,7 +36,7 @@ export default function AllMessages() {
     fetchMatches();
   }, []);
 
-  console.log('Matches:', matches); // Log matches state
+  console.log('Matches:', matches);
 
   return (
     <div className="your-messages-container">

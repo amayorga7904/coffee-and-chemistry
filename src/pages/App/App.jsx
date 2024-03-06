@@ -10,7 +10,6 @@ import AllMessagesPage from '../AllMessagesPage/AllMessagesPage';
 import PersonalMessagesPage from '../PersonalMessagesPage/PersonalMessagesPage';
 import HomePage from '../../HomePage';
 import ProfilePage from '../ProfilePage./ProfilePage';
-import EditProfilePage from '../EditProfilePage/EditProfilePage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -29,7 +28,6 @@ export default function App() {
               <Route path="/messages/:matchId" element={<PersonalMessagesPage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/profile/:userId" element={<EditProfilePage />} />
             </Routes>
           </>
           :

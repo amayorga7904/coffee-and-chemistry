@@ -6,13 +6,12 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useMatchData } from './MatchDataContext';
 import defaultProfilePicture from '../../utilities/default-image' 
-import { Card, Button } from 'react-bootstrap'; // Import Card and Button components from react-bootstrap
+import { Card, Button } from 'react-bootstrap'; 
 import './MatchHistoryPage.css'; 
 
 
 export default function MatchHistoryPage() {
     const location = useLocation();
-    // console.log('Location state:', location.state);
     const { newMatchData } = location.state || {};
     const userData = newMatchData?.userData;
     const [matches, setMatches] = useState([]);
@@ -24,18 +23,14 @@ export default function MatchHistoryPage() {
     const fetchMatches = async () => {
         try {
             const currentUser = getUser()
-            // console.log('current user:', currentUser)
             const token = getToken();
             const response = await axios.get(`/matches/${currentUser._id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            // console.log('response:', response.data)
             const matchesData = response.data.filter(match => match.status === 'pending')
             setMatches(matchesData);
-            // console.log('matches data:', matchesData)
-            // console.log('matches:', matches)
             setLoading(false);
         } catch (error) {
             console.error('Error fetching matches:', error.response ? error.response.data : error.message);
@@ -52,13 +47,11 @@ export default function MatchHistoryPage() {
       const token = getToken();
     
       try {
-        // Instead of deleting, update match status to "rejected"
         await axios.put(`/matches/${currentUser._id}/reject/${matchId}`, { status: 'rejected' }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        // Assuming you want to update the matches state after rejecting a match
         fetchMatches();
       } catch (error) {
         console.error('Error rejecting match:', error);
@@ -70,13 +63,11 @@ export default function MatchHistoryPage() {
       const token = getToken();
     
       try {
-        // Instead of deleting, update match status to "rejected"
         await axios.put(`/matches/${currentUser._id}/accept/${matchId}`, { status: 'accepted' }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        // Assuming you want to update the matches state after rejecting a match
         fetchMatches();
         navigate(`/messages/${matchId}`, { state: { matchData: match } })
       } catch (error) {

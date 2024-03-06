@@ -22,7 +22,7 @@ export default function PersonalMessagesPage() {
         fetchCurrentUser();
 
         if (matchData && matchData.messages) {
-            setMessages(matchData.messages); // Reverse the messages array to display the latest message at the bottom
+            setMessages(matchData.messages); 
         }
     }, [matchData]);
 
@@ -48,12 +48,10 @@ export default function PersonalMessagesPage() {
                 }
             });
             console.log('Message sent successfully:', response.data);
-            // Update messages state with the new message
             setMessages(prevMessages => [
                 ...prevMessages,
                 { content: messageContent, sender: currentUser }
             ]);
-            // Clear the message content after sending
             setMessageContent('');
         } catch (error) {
             console.error('Error sending message:', error.response ? error.response.data : error.message);
@@ -66,17 +64,13 @@ export default function PersonalMessagesPage() {
 
     const handleDelete = async (matchId) => {
         try {
-            // Get the current user and token
             const token = getToken();
-    
-            // Make a DELETE request to delete the match entry
             await axios.delete(`/matches/${matchId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             setSuccessMessage('Successfully Deleted the Conversation! Get Out')
-            // Optionally, you might want to update the UI to reflect the deletion
         } catch (error) {
             console.error('Error deleting:', error);
         }

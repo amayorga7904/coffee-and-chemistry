@@ -41,7 +41,6 @@ export default function NewMatchPage() {
   }, []);
 
   useEffect(() => {
-    // Fetch matched users for the logged-in user
     const fetchMatchedUsers = async () => {
       try {
         const token = getToken();
@@ -75,7 +74,7 @@ export default function NewMatchPage() {
       });
       setMatchedUsers(prevMatchedUsers => [...prevMatchedUsers, receiverId]);
       setContent('');
-      setCurrentIndex(prevIndex => prevIndex + 1); // Move to the next profile
+      setCurrentIndex(prevIndex => prevIndex + 1); 
     } catch (error) {
       console.error('Error creating match:', error);
     }
@@ -95,7 +94,7 @@ export default function NewMatchPage() {
         },
       });
       setOtherUsers(prevOtherUsers => prevOtherUsers.filter(user => user._id !== userId));
-      setCurrentIndex(prevIndex => prevIndex + 1); // Move to the next profile
+      setCurrentIndex(prevIndex => prevIndex + 1); 
     } catch (error) {
       console.error('Error rejecting user:', error);
     }
@@ -115,7 +114,7 @@ export default function NewMatchPage() {
                 <Card.Img variant="top" 
                   src={currentProfile.profilePicture || defaultProfilePicture}
                   alt="Profile" 
-                  fluid // Set width and height for the profile picture
+                  fluid 
                 />
                 <Card.Body>
                   <Card.Title><strong>{currentProfile.name}</strong> {currentProfile.age}</Card.Title>

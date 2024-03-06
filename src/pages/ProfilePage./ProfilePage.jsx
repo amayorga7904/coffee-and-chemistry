@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [bio, setBio] = useState('');
-    const [originalBio, setOriginalBio] = useState(''); // Store the original bio
+    const [originalBio, setOriginalBio] = useState('');
     const [isEditingBio, setIsEditingBio] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
@@ -19,7 +19,7 @@ export default function ProfilePage() {
         try {
             const userData = await getUser();
             setUser(userData);
-            setOriginalBio(userData.bio); // Set the original bio when user data is fetched
+            setOriginalBio(userData.bio); 
         } catch (error) {
             console.error('Error fetching user:', error);
         } 
@@ -43,7 +43,7 @@ export default function ProfilePage() {
             );
             setSuccessMessage('Log Out and Log Back in to see the Updated Bio. Sucks, I Know');
             setIsEditingBio(false);
-            setOriginalBio(bio); // Update the original bio after successful update
+            setOriginalBio(bio); 
         } catch (error) {
             console.error('Error updating bio:', error);
         }
@@ -55,7 +55,7 @@ export default function ProfilePage() {
 
     const handleBioDoubleClick = () => {
         setIsEditingBio(true);
-        setBio(originalBio); // Reset the bio to the original value when editing starts
+        setBio(originalBio); 
     };
 
     const handleBioBlur = () => {
