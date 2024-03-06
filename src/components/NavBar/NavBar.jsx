@@ -17,10 +17,10 @@ export default function NavBar({ user, setUser }) {
         <Nav.Link href="/matches">Matches</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="/profile">Profile</Nav.Link>
+        <Nav.Link href="/messages">Messages</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="/messages">Messages</Nav.Link>
+        <Nav.Link href="/profile">Profile</Nav.Link>
       </Nav.Item>
       <span>Welcome, {user.name}!</span>
       <Nav.Item>

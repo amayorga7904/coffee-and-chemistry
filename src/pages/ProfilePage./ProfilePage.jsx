@@ -11,6 +11,9 @@ export default function ProfilePage() {
     const [originalBio, setOriginalBio] = useState(''); // Store the original bio
     const [isEditingBio, setIsEditingBio] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [error, setError] = useState('');
+
 
     const fetchUser = async () => {
         try {
@@ -77,6 +80,44 @@ export default function ProfilePage() {
         }
     };
 
+
+    const handleFileChange = (e) => {
+        setProfilePicture(e.target.files[0]);
+        setError('');
+        setSuccessMessage('');
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+          const userToken = getToken();
+          const formDataToSend = new FormData();
+          formDataToSend.append('image', profilePicture);
+      
+          const response = await fetch('/api/users/:userId/profile-image', {
+            method: 'PUT',
+            body: formDataToSend,
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+            },
+          });
+      
+          if (response.ok) {
+            // Handle successful upload
+            console.log('Profile picture uploaded successfully');
+            setSuccessMessage('Successfully Submitted a Profile Picture! Now Log Out and Log Back in to see it');
+          } else {
+            setError('Failed to upload profile picture');
+          }
+        } catch (error) {
+          console.error('Error occurred during profile picture upload:', error);
+          setError('Failed to upload profile picture');
+        }
+      };
+
+
+
     return (
         <div>
             <br />
@@ -108,10 +149,21 @@ export default function ProfilePage() {
                         ) : (
                             <p onDoubleClick={handleBioDoubleClick}>{user.bio}</p>
                         )}
-                        {successMessage && <p className='success-message'>{successMessage}</p>}
                         </Card.Text>
                     </div>
                 )}
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <br />
+                        <br />
+                        <label>Upload Profile Picture:</label>
+                        <input type='file' name='profilePicture' onChange={handleFileChange} accept='image/*' />
+                        <button type='submit'>Upload</button>
+                        {error && <p className='error-message'>{error}</p>}
+                        </form>
+                        {error && <p className='error-message'>{error}</p>}
+                        {successMessage && <p className='success-message'>{successMessage}</p>}
+                </div>
             </Card>
         </div>
     );
