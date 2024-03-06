@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 50px; 
+  }
+
+  .match-button,
+.reject-button {
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.match-button {
+  color: white;
+}
+
+.match-button:hover {
+  color: purple; 
+  background-color: black;
+}
+
+.reject-button {
+  color: white;
+}
+
+.reject-button:hover {
+  color: black;
+}

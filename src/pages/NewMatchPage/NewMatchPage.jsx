@@ -6,7 +6,7 @@ import { useUserData } from './UserDataContext';
 import { useParams } from 'react-router-dom';
 import defaultProfilePicture from '../../utilities/default-image';
 import Card from 'react-bootstrap/Card';
-
+import './NewMatchPage.css'
 
 export default function NewMatchPage() {
   const { setUserData } = useUserData();
@@ -111,11 +111,11 @@ export default function NewMatchPage() {
           {loading && <div>Loading...</div>}
           {currentProfile && (
             <div key={currentProfile._id}>
-              <Card>
+              <Card  className='container'>
                 <Card.Img variant="top" 
                   src={currentProfile.profilePicture || defaultProfilePicture}
                   alt="Profile" 
-                  style={{ width: '300px', height: '300px' }} // Set width and height for the profile picture
+                  fluid // Set width and height for the profile picture
                 />
                 <Card.Body>
                   <Card.Title><strong>{currentProfile.name}</strong> {currentProfile.age}</Card.Title>
@@ -126,9 +126,9 @@ export default function NewMatchPage() {
                     <input placeholder='Your Best Pickup Line!' type="text" value={content} onChange={handleContentChange} />
                   </Card.Text>
                 </Card.Body>
-                <Card.Body>
-                  <button onClick={() => setMatch(currentProfile._id, content)}>✔</button>
-                  <button onClick={() => rejectUser(currentProfile._id)}>✖</button>
+                <Card.Body className='buttons'>
+                  <button className='match-button' onClick={() => setMatch(currentProfile._id, content)}>✔</button>
+                  <button className='reject-button' onClick={() => rejectUser(currentProfile._id)}>✖</button>
                 </Card.Body>
               </Card>
               <br />

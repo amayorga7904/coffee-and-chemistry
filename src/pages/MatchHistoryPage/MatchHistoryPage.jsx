@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMatchData } from './MatchDataContext';
 import defaultProfilePicture from '../../utilities/default-image' 
 
+
 export default function MatchHistoryPage() {
     const location = useLocation();
     // console.log('Location state:', location.state);

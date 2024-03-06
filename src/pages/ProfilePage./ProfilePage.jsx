@@ -3,6 +3,7 @@ import { getUser } from '../../utilities/users-service';
 import defaultProfilePicture from '../../utilities/default-image';
 import { getToken } from '../../utilities/users-service';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
@@ -80,17 +81,18 @@ export default function ProfilePage() {
         <div>
             <br />
             <br />
-            <div>
+            <Card>
                 {user && (
                     <div>
-                        <p><strong>{user.name}</strong> {user.age}</p>
-                        <img 
+                        <Card.Title><strong>{user.name}</strong> {user.age}</Card.Title>
+                        <Card.Img
                             src={user.profilePicture || defaultProfilePicture}
                             alt="Profile" 
                             style={{ width: '300px', height: '300px' }}
                         />
                         <br />
                         <br />
+                        <Card.Text>
                         {isEditingBio ? (
                             <textarea
                                 value={bio}
@@ -107,9 +109,10 @@ export default function ProfilePage() {
                             <p onDoubleClick={handleBioDoubleClick}>{user.bio}</p>
                         )}
                         {successMessage && <p className='success-message'>{successMessage}</p>}
+                        </Card.Text>
                     </div>
                 )}
-            </div>
+            </Card>
         </div>
     );
 }
