@@ -40,7 +40,7 @@ export default function AllMessages() {
 
   return (
     <div className="your-messages-container">
-      <h1>Your Messages</h1>
+      <h1>𝕐𝕠𝕦𝕣 𝕄𝕖𝕤𝕤𝕒𝕘𝕖𝕤</h1>
       {loading ? (
         <p>Loading...</p>
       ) : matches.length > 0 ? (

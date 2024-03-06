@@ -43,17 +43,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <br />
-        <br />
-        <h3>Move Along if you Already Uploaded a Profile Picture</h3>
-        <label>Upload Profile Picture:</label>
-        <input type='file' name='profilePicture' onChange={handleFileChange} accept='image/*' />
-        <button type='submit'>Upload</button>
-        {error && <p className='error-message'>{error}</p>}
-        </form>
-        {error && <p className='error-message'>{error}</p>}
-        {successMessage && <p className='success-message'>{successMessage}</p>}
+      <h3>𝕎𝕖𝕝𝕔𝕠𝕞𝕖 ℂ𝕒𝕗𝕗𝕖𝕚𝕟𝕖 𝕃𝕠𝕧𝕖𝕣!</h3>
     </div>
   );
 }

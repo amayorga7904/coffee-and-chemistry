@@ -86,7 +86,7 @@ export default function MatchHistoryPage() {
 
     return (
       <div>
-        <h1>Your Matches</h1>
+        <h1>𝕐𝕠𝕦𝕣 𝕄𝕒𝕥𝕔𝕙𝕖𝕤</h1>
         {matches.length > 0 ? (
           <div>
             {matches.map((match, index) => (

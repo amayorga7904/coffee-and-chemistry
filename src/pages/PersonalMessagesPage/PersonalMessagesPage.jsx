@@ -15,7 +15,12 @@ export default function PersonalMessagesPage() {
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
-        setCurrentUser(getUser());
+        const fetchCurrentUser = async () => {
+            const user = getUser();
+            setCurrentUser(user);
+        };
+        fetchCurrentUser();
+
         if (matchData && matchData.messages) {
             setMessages(matchData.messages); // Reverse the messages array to display the latest message at the bottom
         }
@@ -23,6 +28,8 @@ export default function PersonalMessagesPage() {
 
     const getSenderInfo = (message) => {
         const sender = message.sender;
+        if (!currentUser || !sender) return null;
+        
         if (sender._id === currentUser._id) {
             return currentUser;
         } else {
@@ -75,27 +82,27 @@ export default function PersonalMessagesPage() {
         }
     };
     
-        return (
-            <div className="personal-messages-container">
-              <h1>Personal Messages</h1>
-              {matchData && currentUser && (
+    return (
+        <div className="personal-messages-container">
+            <h1>𝕍𝕚𝕓𝕚𝕟𝕘 𝕨𝕚𝕥𝕙 {matchData && matchData.users && matchData.users.find(user => user._id !== currentUser?._id)?.name}</h1>
+            {matchData && currentUser && (
                 <div className="messages-container">
-                  {messages.map((message, index) => (
-                    <div key={index} className={message.senderId === currentUser._id ? "sent-message" : "received-message"}>
-                      <img 
-                        className="profile-picture"
-                        src={getSenderInfo(message).profilePicture || defaultProfilePicture} 
-                        alt="Profile" 
-                      />
-                      <p className="message-content">{message.content}</p>
-                    </div>
-                  ))}
-                  <input type="text" value={messageContent} onChange={handleChange} className="message-input" />
-                  <button onClick={handleSubmit} className="send-button">Send</button>
+                    {messages.map((message, index) => (
+                        <div key={index} className={message.senderId === currentUser._id ? "sent-message" : "received-message"}>
+                            <img 
+                                className="profile-picture"
+                                src={getSenderInfo(message)?.profilePicture || defaultProfilePicture} 
+                                alt="Profile" 
+                            />
+                            <p className="message-content">{message.content}</p>
+                        </div>
+                    ))}
+                    <input type="text" value={messageContent} onChange={handleChange} className="message-input" />
+                    <button onClick={handleSubmit} className="send-button">Send</button>
                 </div>
-              )}
-              <button onClick={() => handleDelete(matchData._id)} className="delete-button">Delete</button>
-              {successMessage && <p className='success-message'>{successMessage}</p>}
-            </div>
-          );
-        }
+            )}
+            <button onClick={() => handleDelete(matchData._id)} className="delete-button">Delete</button>
+            {successMessage && <p className='success-message'>{successMessage}</p>}
+        </div>
+    );
+}

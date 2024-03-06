@@ -106,7 +106,7 @@ export default function NewMatchPage() {
   return (
     <div>
       <>
-        <h1>Discover New Chemistry</h1>
+        <h1>𝔻𝕚𝕤𝕔𝕠𝕧𝕖𝕣 ℕ𝕖𝕨 ℂ𝕙𝕖𝕞𝕚𝕤𝕥𝕣𝕪</h1>
         <div>
           {loading && <div>Loading...</div>}
           {currentProfile && (
