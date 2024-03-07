@@ -49,6 +49,7 @@ async function fetchMatches(req, res) {
             populate: { path: 'sender' }
         })
         .populate('users')
+        console.log('fetch matches backend:', matches)
         res.json(matches);
     } catch (error) {
         console.log(error);

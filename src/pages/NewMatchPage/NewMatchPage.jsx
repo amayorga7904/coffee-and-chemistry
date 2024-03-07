@@ -50,22 +50,18 @@ export default function NewMatchPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('response:', response.data)
-            // Extracting matched users' IDs from each match object
-        const matchedUsersIds = response.data.reduce((ids, match) => {
-          // Extracting user IDs from the users array within each match
-          const userIds = match.users.map(user => user._id);
-          return [...ids, ...userIds];
-        }, []);
-        console.log('matched users id:', matchedUsersIds)
-        setMatchedUsers(matchedUsersIds);
+        console.log('response:', response.data);
+        
+        // Set the matched users directly from the response
+        setMatchedUsers(response.data);
       } catch (error) {
         console.error('Error fetching matched users:', error);
       }
     };
-
+  
     fetchMatchedUsers();
-  }, [userId]);
+  }, []);
+  
 
   const setMatch = async (receiverId, content) => {
     const token = getToken();
@@ -75,7 +71,7 @@ export default function NewMatchPage() {
     };
 
     try {
-      const response = await axios.post('/matches/', matchData, {
+      await axios.post('/matches', matchData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
