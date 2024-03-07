@@ -45,7 +45,7 @@ export default function NewMatchPage() {
     const fetchMatchedUsers = async () => {
       try {
         const token = getToken();
-        const response = await axios.get(`/matches`, {
+        const response = await axios.get(`/matches/new/${getUser()._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
