@@ -10,12 +10,9 @@ export default function NavBar({ user, setUser }) {
   }
 
   return (
-    <Nav fill variant="tabs" defaultActiveKey="/matches/new">
+    <Nav fill variant="tabs" defaultActiveKey="/matches">
       <Nav.Item>
-        <Nav.Link href="/matches/new">ℂ&ℂ</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link className='nav' href="/matches">Matches</Nav.Link>
+        <Nav.Link className='nav' href="/matches">ℂ&ℂ</Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link className='nav' href="/messages">Messages</Nav.Link>

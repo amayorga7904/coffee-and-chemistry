@@ -17,10 +17,11 @@ export default function MatchHistoryPage() {
     const { newMatchData } = location.state || {};
     const userData = newMatchData?.userData;
     const [matches, setMatches] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const { userId } = useParams()
     const navigate = useNavigate()
     const { setMatchData } = useMatchData();
+    const [showMatches, setShowMatches] = useState(false); // State to track whether matches are displayed
 
     const fetchMatches = async () => {
         try {
@@ -44,7 +45,14 @@ export default function MatchHistoryPage() {
     useEffect(() => {
         fetchMatches();
     }, [setMatchData]);
-    
+
+    const toggleMatches = () => {
+        setShowMatches(prevShowMatches => !prevShowMatches); // Toggle the state
+        if (!showMatches) {
+            fetchMatches(); // Fetch matches only if they are going to be displayed
+        }
+    };
+
     const handleReject = async (matchId) => {
       const currentUser = getUser();
       const token = getToken();
@@ -81,56 +89,57 @@ export default function MatchHistoryPage() {
     return (
       <Container>
         <Row>
-        <h1>𝕐𝕠𝕦𝕣 𝕄𝕒𝕥𝕔𝕙𝕖𝕤</h1>
           <Col>
-        <NewMatchPage />
-        </Col>
-        <Col>
-        {matches.length > 0 ? (
-          <div>
-            {matches.map((match, index) => (
-              <div key={index}>
-                <div>
-                  {match.messages.map((message, messageIndex) => (
-                    <div key={messageIndex}>
-                      {message.sender._id !== getUser()._id && (
-                        <Card className="match-card">
-                          <Card.Img
-                            variant="top"
-                            src={message.sender.profilePicture || defaultProfilePicture}
-                            alt="Profile"
-                            style={{ width: '300px', height: '300px' }}
-                          />
-                          <Card.Body>
-                            <Card.Title>
-                              <strong>{message.sender.name}</strong> {message.sender.age}
-                            </Card.Title>
-                            <Card.Text>{message.sender.bio}</Card.Text>
-                            <Card.Text>"{message.content}"</Card.Text>
-                            {match.status === 'pending' && (
-                              <div>
-                                <Button className="accept-button" onClick={() => handleAccept(match, match._id)}>
-                                  ✔
-                                </Button>
-                                <Button className="reject-button" onClick={() => handleReject(match._id)}>
-                                  ✖
-                                </Button>
-                              </div>
-                            )}
-                          </Card.Body>
-                        </Card>
-                      )}
+            <NewMatchPage />
+          </Col>
+          <Col>
+            {/* <h1>𝕐𝕠𝕦𝕣 𝕄𝕒𝕥𝕔𝕙𝕖𝕤</h1> */}
+            <Button className='matches' onClick={toggleMatches}>𝕐𝕠𝕦𝕣 𝕄𝕒𝕥𝕔𝕙𝕖𝕤</Button>
+            {showMatches && matches.length > 0 ? (
+              <div>
+                {matches.map((match, index) => (
+                  <div key={index}>
+                    <div>
+                      {match.messages.map((message, messageIndex) => (
+                        <div key={messageIndex}>
+                          {message.sender._id !== getUser()._id && (
+                            <Card className="match-card">
+                              <Card.Img
+                                variant="top"
+                                src={message.sender.profilePicture || defaultProfilePicture}
+                                alt="Profile"
+                                style={{ width: '300px', height: '300px' }}
+                              />
+                              <Card.Body>
+                                <Card.Title>
+                                  <strong>{message.sender.name}</strong> {message.sender.age}
+                                </Card.Title>
+                                <Card.Text>{message.sender.bio}</Card.Text>
+                                <Card.Text>"{message.content}"</Card.Text>
+                                {match.status === 'pending' && (
+                                  <div>
+                                    <Button className="accept-button" onClick={() => handleAccept(match, match._id)}>
+                                      ✔
+                                    </Button>
+                                    <Button className="reject-button" onClick={() => handleReject(match._id)}>
+                                      ✖
+                                    </Button>
+                                  </div>
+                                )}
+                              </Card.Body>
+                            </Card>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ) : (
-          <p>Sorry, looks like no one likes you!</p>
-        )}
-        </Col>
+            ) : (
+              <p>{showMatches ? 'Sorry, Looks like Nobody likes You!' : ''}</p>
+            )}
+          </Col>
         </Row>
       </Container>
     );
-  }
+}
