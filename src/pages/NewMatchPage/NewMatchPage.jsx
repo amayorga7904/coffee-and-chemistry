@@ -50,18 +50,24 @@ export default function NewMatchPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('response:', response.data);
-        
-        // Set the matched users directly from the response
-        setMatchedUsers(response.data);
+        console.log('response:', response.data)
+        console.log('token:', token)
+
+            // Extracting matched users' IDs from each match object
+        const matchedUsersIds = response.data.reduce((ids, match) => {
+          // Extracting user IDs from the users array within each match
+          const userIds = match.users.map(user => user._id);
+          return [...ids, ...userIds];
+        }, []);
+        console.log('matched users id:', matchedUsersIds)
+        setMatchedUsers(matchedUsersIds);
       } catch (error) {
         console.error('Error fetching matched users:', error);
       }
     };
-  
+
     fetchMatchedUsers();
-  }, []);
-  
+  }, [userId]);
 
   const setMatch = async (receiverId, content) => {
     const token = getToken();
