@@ -8,6 +8,8 @@ import { useMatchData } from './MatchDataContext';
 import defaultProfilePicture from '../../utilities/default-image' 
 import { Card, Button } from 'react-bootstrap'; 
 import './MatchHistoryPage.css'; 
+import NewMatchPage from '../NewMatchPage/NewMatchPage';
+import { Row, Col, Container } from 'react-bootstrap'
 
 
 export default function MatchHistoryPage() {
@@ -77,8 +79,13 @@ export default function MatchHistoryPage() {
     }
 
     return (
-      <div>
+      <Container>
+        <Row>
         <h1>𝕐𝕠𝕦𝕣 𝕄𝕒𝕥𝕔𝕙𝕖𝕤</h1>
+          <Col>
+        <NewMatchPage />
+        </Col>
+        <Col>
         {matches.length > 0 ? (
           <div>
             {matches.map((match, index) => (
@@ -122,6 +129,8 @@ export default function MatchHistoryPage() {
         ) : (
           <p>Sorry, looks like no one likes you!</p>
         )}
-      </div>
+        </Col>
+        </Row>
+      </Container>
     );
   }
