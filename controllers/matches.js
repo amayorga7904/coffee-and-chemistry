@@ -40,6 +40,22 @@ async function showMatch(req, res) {
     }
 }
 
+async function fetchMatches(req, res) {
+    try {
+        const userId = req.user._id;
+        const matches = await Match.find({ users: { $elemMatch: { $eq: userId } } })
+        .populate({
+            path: 'messages',
+            populate: { path: 'sender' }
+        })
+        .populate('users')
+        res.json(matches);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred while fetching matches' });
+    }
+}
+
 
 
 async function createMatch(req, res) {
@@ -80,7 +96,8 @@ const deleteMatch = async (req, res) => {
 module.exports = {
     createMatch,
     showMatch,
+    fetchMatches,
     rejectMatch,
     acceptMatch,
-    delete: deleteMatch
+    delete: deleteMatch,
 }

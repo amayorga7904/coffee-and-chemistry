@@ -29,6 +29,7 @@ export default function NewMatchPage() {
         });
         const currentUser = getUser();
         const filteredUsers = response.data.filter(user => user._id !== currentUser._id);
+        console.log('filtered users:', filteredUsers)
         setOtherUsers(filteredUsers);
       } catch (error) {
         console.error('Error fetching other users:', error);
@@ -44,12 +45,19 @@ export default function NewMatchPage() {
     const fetchMatchedUsers = async () => {
       try {
         const token = getToken();
-        const response = await axios.get(`/matches/${getUser()._id}`, {
+        const response = await axios.get(`/matches/new/${getUser()._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const matchedUsersIds = response.data.map(match => match.receiver);
+        console.log('response:', response.data)
+            // Extracting matched users' IDs from each match object
+        const matchedUsersIds = response.data.reduce((ids, match) => {
+          // Extracting user IDs from the users array within each match
+          const userIds = match.users.map(user => user._id);
+          return [...ids, ...userIds];
+        }, []);
+        console.log('matched users id:', matchedUsersIds)
         setMatchedUsers(matchedUsersIds);
       } catch (error) {
         console.error('Error fetching matched users:', error);
@@ -114,7 +122,6 @@ export default function NewMatchPage() {
                 <Card.Img variant="top" 
                   src={currentProfile.profilePicture || defaultProfilePicture}
                   alt="Profile" 
-                  fluid 
                 />
                 <Card.Body>
                   <Card.Title><strong>{currentProfile.name}</strong> {currentProfile.age}</Card.Title>

@@ -30,6 +30,7 @@ export default function MatchHistoryPage() {
                 },
             });
             const matchesData = response.data.filter(match => match.status === 'pending')
+            console.log('match data', matchesData)
             setMatches(matchesData);
             setLoading(false);
         } catch (error) {
