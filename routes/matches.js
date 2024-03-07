@@ -6,7 +6,7 @@ const ensureLoggedIn = require('../config/ensureLoggedIn')
 
 router.post('/', ensureLoggedIn, matchCtrl.createMatch)
 
-router.get('/new/:id', ensureLoggedIn, matchCtrl.fetchMatches)
+router.get('/new', ensureLoggedIn, matchCtrl.fetchMatches)
 router.get('/:id', ensureLoggedIn, matchCtrl.showMatch)
 
 
