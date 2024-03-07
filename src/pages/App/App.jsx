@@ -4,7 +4,7 @@ import { getUser } from '../../utilities/users-service';
 import './App.css';
 import AuthPage from '../AuthPage/AuthPage';
 import NewMatchPage from '../NewMatchPage/NewMatchPage';
-import MatchHistoryPage from '../MatchHistoryPage/MatchHistoryPage';
+// import MatchHistoryPage from '../MatchHistoryPage/MatchHistoryPage';
 import NavBar from '../../components/NavBar/NavBar';
 import AllMessagesPage from '../AllMessagesPage/AllMessagesPage';
 import PersonalMessagesPage from '../PersonalMessagesPage/PersonalMessagesPage';
@@ -23,7 +23,7 @@ export default function App() {
             <Routes>
               {/* Route components in here */}
               <Route path="/matches/new" element={<NewMatchPage />} />
-              <Route path="/matches" element={<MatchHistoryPage />} />
+              {/* <Route path="/matches" element={<MatchHistoryPage />} /> */}
               <Route path="/messages" element={<AllMessagesPage />} />
               <Route path="/messages/:matchId" element={<PersonalMessagesPage />} />
               <Route path="/" element={<HomePage />} />
